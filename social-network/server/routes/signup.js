@@ -13,10 +13,11 @@ router.get('/', (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const {age, bio, fullname, nickname, password} = req.body;
-    console.log({age, bio, fullname, nickname, password})
-    const text = `INSERT INTO person (age, bio, fullname) VALUES ($1, $2, $3);`
-    const values = [age, bio, fullname]
+    const {email, fullName, age, username, password} = req.body;
+    console.log(2)
+    console.log({email, fullName, age, username, password})
+    const text = `INSERT INTO person (age, fullName, email) VALUES ($1, $2, $3);`
+    const values = [age, fullName, email]
     const result = await db.query(text, values);
     //const result = await db.query(`SELECT * FROM Person;`)
     console.log({result});
