@@ -19,7 +19,6 @@ router.post('/', async (req, res, next) => {
     const text = `INSERT INTO person (age, fullName, email) VALUES ($1, $2, $3);`
     const values = [age, fullName, email]
     const result = await db.query(text, values);
-    //const result = await db.query(`SELECT * FROM Person;`)
     console.log({result});
     res.json('Data obtained');
   } catch(e) {
