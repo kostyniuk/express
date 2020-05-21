@@ -1,5 +1,5 @@
 CREATE TABLE user_info (
-  user_id INTEGER,
+  user_id BIGSERIAL,
   username VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL
 );

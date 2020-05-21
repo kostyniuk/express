@@ -11,11 +11,17 @@ const salt = bcrypt.genSaltSync(10);
 router.post('/', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-
+    console.log({username, password})
     const queryUser = `SELECT password from user_info WHERE username = $1;`;
     const valuesUser = [username];
     let { rows } = await db.query(queryUser, valuesUser);
     console.log({ rows });
+
+    if (rows.length === 0) {
+      console.log('dasd')
+      res.status(404).json('Not Authenthificated');
+    }
+
     const hashedDB = rows[0].password;
 
     const checkPassword = await bcrypt.compare(password, hashedDB);
@@ -24,6 +30,7 @@ router.post('/', async (req, res, next) => {
       res.json('Authenthificated');
     } else {
       res.json('Not Authenthificated');
+
     }
   } catch (e) {
     console.error({ e });

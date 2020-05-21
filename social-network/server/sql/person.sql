@@ -11,8 +11,9 @@ ALTER TABLE Person ADD CONSTRAINT pkPerson
   PRIMARY KEY (person_id);
 
 ALTER TABLE Person ALTER number_of_posts SET DEFAULT 0;
-ALTER TABLE Person ALTER bio SET DEFAULT "";
+ALTER TABLE Person ALTER bio SET DEFAULT ('');
 
+ALTER TABLE person ADD CONSTRAINT ageGreater0 CHECK(age > 0); 
 
 ALTER TABLE person ADD CONSTRAINT fk_Person_User_Id
   FOREIGN KEY (person_id) REFERENCES user_info (user_id)

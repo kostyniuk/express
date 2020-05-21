@@ -14,7 +14,10 @@ const InputLogIn = () => {
         body: JSON.stringify(body),
       });
 
-      window.location = '/';
+      const jsonData = await response.json();
+      console.log({jsonData})
+
+      //window.location = '/';
     } catch (err) {
       console.error(err.message);
     }

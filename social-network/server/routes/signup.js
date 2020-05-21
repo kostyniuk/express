@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
     const valuesPerson = [id, age, fullName, email];
     const result = await db.query(queryPerson, valuesPerson);
 
-    res.json('Data obtained');
+    res.json('Registration is successfull!');
   } catch (e) {
     console.error({ e });
   }
