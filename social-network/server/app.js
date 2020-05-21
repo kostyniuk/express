@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const db = require('./db/db');
 const signupRoute = require('./routes/signup');
+const loginRoute = require('./routes/login');
 
 
 const app = express();
@@ -19,13 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan('tiny'));
 
-// (async () => {
-//   const {rows} = await db.query(`SELECT * FROM Person;`, []);
-//   console.log({rows})
-//   return rows
-// })().then(res => console.log(res));
-
 app.use('/signup', signupRoute);
+app.use('/login', loginRoute);
 
 app.get('/', (req, res, next) => {
   console.log({ headers: req.headers });
