@@ -14,7 +14,7 @@ const User = ({ match }) => {
 
   const fetchInfo = async () => {
     const { username } = match.params;
-    const data = await fetch(`http://localhost:4000/user/${username}`);
+    const data = await fetch(`http://localhost:3000/api/user/${username}`);
     console.log({ data });
     const information = await data.json();
     const { info } = information;

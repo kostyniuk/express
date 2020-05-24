@@ -18,7 +18,6 @@ router.post('/', async (req, res, next) => {
     console.log({ rows });
 
     if (rows.length === 0) {
-      console.log('dasd')
       res.status(404).json('Not Authenthificated');
     }
 
@@ -27,6 +26,7 @@ router.post('/', async (req, res, next) => {
     const checkPassword = await bcrypt.compare(password, hashedDB);
 
     if (checkPassword) {
+      req.session.username = username;
       res.json('Authenthificated');
     } else {
       res.json('Not Authenthificated');

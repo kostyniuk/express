@@ -11,10 +11,11 @@ const InputSignUp = () => {
     e.preventDefault();
     try {
       const body = { email, fullName, age, username, password };
-      const response = await fetch('http://localhost:4000/signup', {
+      const response = await fetch('http://localhost:3000/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
+        credentials: 'include'
       });
 
       window.location = '/';
