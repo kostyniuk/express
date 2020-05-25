@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+
 
 const InputLogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [err, setErr] = useState(null);
+  const [textColor, setTextColor] = useState('text-danger');
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
@@ -12,17 +15,27 @@ const InputLogIn = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        credentials: 'include'
+        credentials: 'include',
       });
 
       const jsonData = await response.json();
-      console.log({jsonData})
+      console.log({ jsonData });
+      if (jsonData.e) {
+        setErr(
+          'Sorry, your password was incorrect. Please double-check your password.'
+        );
+      } else {
+        setErr('success');
+        setTextColor('text-success');
+      }
 
       //window.location = '/';
     } catch (err) {
       console.error(err.message);
     }
   };
+
+  if (err === 'success') return <Redirect to={`/user/${username}`}></Redirect>
 
   return (
     <Fragment>
@@ -45,6 +58,7 @@ const InputLogIn = () => {
           />
           <button className='btn btn-success w-100 mt-3'>Log in</button>
         </form>
+        {err ? <h6 className={textColor}> {err} </h6> : null}
       </div>
     </Fragment>
   );

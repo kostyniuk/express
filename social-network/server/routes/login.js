@@ -42,7 +42,7 @@ router.get('/failure', (req, res, next) => {
 
 router.get('/success', (req, res, next) => {
   console.log(req.session);
-  res.json({ e: 'Authorization successfull' });
+  res.json({ info: 'Authorization successfull', username: req.session.username });
 });
 
 module.exports = router;
