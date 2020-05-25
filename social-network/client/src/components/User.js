@@ -32,7 +32,13 @@ const User = ({ match }) => {
       method: 'POST',
       body: fd,
     });
-    console.log(response);
+
+    const data = await response.json();
+    console.log(data);
+
+    setPictureLink('http://localhost:3000/api/' + data.src);
+    console.log({pictureUrl})
+
 
   }
 
@@ -54,8 +60,7 @@ const User = ({ match }) => {
     setBio(info.bio);
     setEmail(info.email);
     setNumberOfPosts(info.number_of_posts);
-    setPictureLink(info.picture);
-    console.log({pictureUrl})
+    
   };
 
   if (notFound)
@@ -73,7 +78,7 @@ const User = ({ match }) => {
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap '>
         <form className='m-10 bg-dark'>
           <h3 className='mt-3'> </h3>
-          <img src={{pictureUrl}} width='100' height='100' class="rounded-circle z-depth-2 mx-auto d-block " />
+          <img src={pictureUrl} width='200' height='200' class="rounded-circle z-depth-2 mx-auto d-block " />
           <h3 className='mt-3 text-white'>Name: {name}</h3>
           <h3 className='mt-5 text-white'>Email: {email}</h3>
           <h3 className='mt-5 text-white'>Age: {age}</h3>
