@@ -78,14 +78,14 @@ router.post('/:nickname/addPicture', upload.single('profilePhoto'), async (req, 
   const path = process.env.PROFILE_PICTURES_FOLDER + req.file.filename;
   console.log({path})
 
-  const {rows} = await db.query(`UPDATE person SET picture = $1
-  from person p
-  inner join user_info u
-  on p.person_id = u.user_id WHERE u.username = $2`,
+  const {rows} = await db.query(`UPDATE person p
+    SET picture = $1
+    from user_info u
+    WHERE p.person_id = u.user_id AND u.username = $2`,
   [path, nickname]);
   
   console.log({rows})
-  res.json('get an image');
+  res.json({src: path});
   
 })
 
