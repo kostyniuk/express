@@ -8,12 +8,12 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const cors = require('cors');
 const pg = require('pg');
+const passport = require('passport');
 require('dotenv').config();
 
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
 const userRoute = require('./routes/user');
-const isAuth = require('./routes/isAuth');
 
 const app = express();
 
@@ -34,10 +34,10 @@ const pgPool = new pg.Pool({
   port: process.env.DB_PORT,
 });
 
-app.use((req, res, next) => {
-  console.log({ session: req.session });
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log({ session: req.session });
+//   next();
+// });
 
 app.use(session({
   // eslint-disable-next-line new-cap
@@ -52,12 +52,18 @@ app.use(session({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
+
+require('./config/passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/api/public', express.static('public'));
 app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 
 app.get('/api', (req, res, next) => {
-  console.log(req.session);
+  //console.log(req.session);
   res.status(300);
   res.end('Home');
 });

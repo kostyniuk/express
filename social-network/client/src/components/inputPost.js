@@ -1,25 +1,27 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-const InputPost = () => {
+const InputPost = ({ match }) => {
   const [loading, setLoading] = useState(true);
   const [caption, setCaption] = useState('');
   const [location, setLocation] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        'http://localhost:3000/api/user/jimmybutler/createPost'
-      );
-      const jsonData = await response.json();
-      if (!jsonData.e) {
-        setUser(true);
-      }
-      setLoading(false);
-      console.log({ jsonData });
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const { username } = match.params;
+    const response = await fetch(
+      `http://localhost:3000/api/user/${username}/createPost`
+    );
+    const jsonData = await response.json();
+    if (!jsonData.e) {
+      setUser(true);
+    }
+    setLoading(false);
+    console.log({ jsonData });
+  };
 
   const onSubmitForm = async (e) => {
     e.preventDefault();

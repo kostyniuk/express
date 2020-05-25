@@ -28,7 +28,7 @@ const InputSignUp = () => {
     <Fragment>
       <h1 className='text-center mt-5 text-white'>Sign Up</h1>
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4'>
-        <form className='m-5' onSubmit={onSubmitForm}>
+        <form className='m-5' enctype="multipart/form-data" onSubmit={onSubmitForm}>
           <input
             type='text'
             className='form-control mb-3'

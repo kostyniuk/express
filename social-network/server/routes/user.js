@@ -1,8 +1,23 @@
 'use strict';
 
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs')
 
-const db = require('../db/db');
+const storage = multer.diskStorage({
+  destination: "./public/uploads/",
+  filename: function(req, file, cb){
+     cb(null, req.session.username + '.' + file.originalname.split('.')[1]);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1024 * 1024 * 5},
+})
+
+
+const db = require('../config/db');
 
 const router = express.Router();
 
@@ -44,17 +59,36 @@ router.get('/:nickname', async (req, res, next) => {
 });
 
 router.get('/:nickname/createPost', (req, res, next) => {
-  const { nickname } = req.params;
   console.log(req.session, nickname)
   console.log(req.session.username, nickname)
   console.log()
-  if (req.session.username) {
+  if (req.session.username === nickname) {
     console.log('username')
     res.json('Create a new Post')
    } else {
     console.log('no username')
      res.status(403).json({e: 'error'})
    }
+});
+
+router.post('/:nickname/addPicture', upload.single('profilePhoto'), async (req, res, next) => {
+  const { nickname } = req.params;
+  console.log(req.file);
+  console.log(req.session)
+  const path = process.env.PROFILE_PICTURES_FOLDER + req.file.filename;
+  console.log({path})
+
+  const {rows} = await db.query(`UPDATE person SET picture = $1
+  from person p
+  inner join user_info u
+  on p.person_id = u.user_id WHERE u.username = $2`,
+  [path, nickname]);
+  
+  console.log({rows})
+  res.json('get an image');
+  
 })
+
+
 
 module.exports = router;

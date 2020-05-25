@@ -3,17 +3,16 @@
 
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const db = require('../db/db');
+const db = require('../config/db');
+const {genPassword, validPassword} = require('../lib/passwordUtils');
 
 const router = express.Router();
-
-const salt = bcrypt.genSaltSync(10);
 
 router.post('/', async (req, res, next) => {
   try {
     const { email, fullName, age, username, password } = req.body;
 
-    const hash = bcrypt.hashSync(password, salt);
+    const hash = genPassword(password, process.env.SALT);
 
     const queryUser = `INSERT INTO user_info (username, password) VALUES ($1, $2) RETURNING user_id;`;
     const valuesUser = [username, hash];
