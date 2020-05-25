@@ -77,25 +77,26 @@ const User = ({ match }) => {
     );
   return (
     <Fragment>
-      <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap '>
-        <form className='m-10 bg-dark'>
-          <h3 className='mt-3'> </h3>
+      <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap'>
+        <form className='m-2 bg-dark'>
           <img
             src={image}
             width='200'
             height='200'
             class='rounded-circle z-depth-2 mx-auto d-block '
           />
-          <h3 className='mt-3 text-white'>Name: {name}</h3>
-          <h3 className='mt-5 text-white'>Email: {email}</h3>
-          <h3 className='mt-5 text-white'>Age: {age}</h3>
-          <h3 className='mt-5 mb-5 text-white'>Posts: {numberOfPosts}</h3>
-          <h3 className='mt-5 text-white t '>Bio: {bio}</h3>
+          <ul className=''>
+            <li className='mt-3 text-white'>Name: {name}</li>
+            <li className='mt-3 text-white'>Email: {email}</li>
+            <li className='mt-3 text-white'>Age: {age}</li>
+            <li className='mt-3 text-white'>Posts: {numberOfPosts}</li>
+            <li className='mt-3 text-white'>Bio: {bio}</li>
+          </ul>
         </form>
         <form enctype='multipart/form-data'>
           <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4'>
             <label className='text-white' for='exampleFormControlFile1'>
-              Add a picture
+              Change a profile picture
             </label>
             <input
               type='file'
@@ -107,7 +108,7 @@ const User = ({ match }) => {
               className='btn btn-success w-100 mt-3'
               onClick={setProfilePhoto}
             >
-              Change profile photo
+              Submit
             </button>
           </div>
         </form>
