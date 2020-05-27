@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const User = ({ match }) => {
   useEffect(() => {
@@ -13,12 +14,14 @@ const User = ({ match }) => {
   const [notFound, setNotFound] = useState('');
   const [pictureUrl, setPictureLink] = useState('');
   const [image, setImage] = useState('');
+  const [newImage, setNewImage] = useState('');
+  const [logout, setLogout] = useState('');
 
   const API_HOST = 'http://localhost:3000/api/';
 
   const selectImage = (event) => {
     console.log(event.target.files[0]);
-    setImage(event.target.files[0]);
+    setNewImage(event.target.files[0]);
   };
 
   const setProfilePhoto = async (event) => {
@@ -66,6 +69,17 @@ const User = ({ match }) => {
     setImage(url);
   };
 
+  const logoutHandler = async (event) => {
+    event.preventDefault();
+    const data = await fetch(`http://localhost:3000/api/logout`);
+    const info = await data.json();
+    console.log({info})
+    setLogout(info);
+  }
+
+  if (logout) return <Redirect to='/login'></Redirect>
+
+
   if (notFound)
     return (
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap '>
@@ -94,22 +108,23 @@ const User = ({ match }) => {
           </ul>
         </form>
         <form enctype='multipart/form-data'>
-          <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4'>
+          <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-center'>
             <label className='text-white' for='exampleFormControlFile1'>
               Change a profile picture
             </label>
             <input
               type='file'
               name='profilePhoto'
-              class='form-control-file'
+              class='form-control-file ' 
               onChange={selectImage}
             />
             <button
-              className='btn btn-success w-100 mt-3'
+              className='btn btn-success w-75 mt-3'
               onClick={setProfilePhoto}
             >
               Submit
             </button>
+            <button className="btn btn-danger w-75 mt-5" onClick={logoutHandler}>Log Out</button>
           </div>
         </form>
       </div>
