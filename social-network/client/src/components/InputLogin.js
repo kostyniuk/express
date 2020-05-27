@@ -25,7 +25,7 @@ const InputLogIn = () => {
           'Sorry, your password was incorrect. Please double-check your password.'
         );
       } else {
-        setErr('success');
+        setErr(false);
         setTextColor('text-success');
       }
 
@@ -35,7 +35,7 @@ const InputLogIn = () => {
     }
   };
 
-  if (err === 'success') return <Redirect to={`/user/${username}`}></Redirect>
+  if (err === false) return <Redirect to={`/user/${username}`}></Redirect>
 
   return (
     <Fragment>
