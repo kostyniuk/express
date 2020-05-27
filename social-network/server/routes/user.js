@@ -7,8 +7,6 @@ const fs = require('fs')
 const storage = multer.diskStorage({
   destination: "./public/uploads/",
   filename: function(req, file, cb){
-    console.log('-----------------------')
-    console.log({file})
      cb(null, 'user_' + req.user.username + '.' + file.originalname.split('.')[1]);
   }
 });
@@ -75,10 +73,7 @@ router.get('/:nickname/createPost', (req, res, next) => {
 
 router.post('/:nickname/addPicture', upload.single('profilePhoto'), async (req, res, next) => {
   const { nickname } = req.params;
-  console.log({file: req.file});
-  //console.log(req.session);
   const path = process.env.PROFILE_PICTURES_FOLDER + req.file.filename;
-  console.log({path})
 
   const {rows} = await db.query(`UPDATE person p
     SET picture = $1
@@ -86,11 +81,8 @@ router.post('/:nickname/addPicture', upload.single('profilePhoto'), async (req, 
     WHERE p.person_id = u.user_id AND u.username = $2`,
   [path, nickname]);
   
-  console.log({rows})
   res.json({src: path});
   
 })
-
-
 
 module.exports = router;
