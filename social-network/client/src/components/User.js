@@ -29,8 +29,8 @@ const User = ({ match }) => {
     event.preventDefault();
     console.log({ image });
     const fd = new FormData();
-    fd.append('profilePhoto', image);
-    console.log({ fd });
+    fd.append('profilePhoto', newImage);
+    console.log({ fd, username });
     const response = await fetch(
       `http://localhost:3000/api/user/${username}/addPicture`,
       {
@@ -43,7 +43,6 @@ const User = ({ match }) => {
     console.log(data);
 
     setPictureLink(API_HOST + data.src);
-    console.log({ pictureUrl });
   };
 
   const fetchInfo = async () => {
