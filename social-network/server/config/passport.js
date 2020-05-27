@@ -25,7 +25,6 @@ const verifyCallback = async (username, password, done) => {
     const hashed = rows[0].password;
     console.log({username})
     const isValid = await validPassword(password, hashed);
-
     console.log({isValid, username})
 
     if (isValid) {
