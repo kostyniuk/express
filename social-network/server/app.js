@@ -14,6 +14,7 @@ require('dotenv').config();
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
 const userRoute = require('./routes/user');
+const logoutRoute = require('./routes/logout');
 
 const app = express();
 
@@ -57,10 +58,17 @@ require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+// app.use((req, res, next) => {
+//   console.log({ session: req.session });
+//   console.log({ user: req.user });
+//   next();
+// });
+
 app.use('/api/public', express.static('public'));
 app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
+app.use('/api/logout', logoutRoute);
 
 app.get('/api', (req, res, next) => {
   //console.log(req.session);
