@@ -7,7 +7,7 @@ const fs = require('fs')
 const storage = multer.diskStorage({
   destination: "./public/uploads/",
   filename: function(req, file, cb){
-     cb(null, 'user_' + req.user.username + '.' + file.originalname.split('.')[1]);
+       cb(null, 'user_' + req.user.username + '.' + file.originalname.split('.')[1]);
   }
 });
 
@@ -20,6 +20,17 @@ const upload = multer({
 const db = require('../config/db');
 
 const router = express.Router();
+
+// middleware to check if a user can change the profile picture
+router.use('/:nickname/addPicture', (req, res, next) => {
+  const { nickname } = req.params;
+  console.log(req.user)
+  if (req.user) {
+    if (req.user.username === nickname) next()
+  } else {
+    res.status(401).json('err: You don\'t have permissions to perform that operation');
+  }
+})
 
 const findIdByUserName = async (nickname, res) => {
   const queryUser = `SELECT user_id from user_info WHERE username = $1;`;
