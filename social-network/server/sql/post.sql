@@ -3,7 +3,7 @@ CREATE TABLE Post (
   creator_id INTEGER NOT NULL,
   caption TEXT,
   number_of_likes INTEGER,
-  createdAt TIMESTAMP NOT NULL
+  created_at TIMESTAMP NOT NULL 
 );
 
 ALTER TABLE Post ADD CONSTRAINT pkPost
@@ -11,6 +11,8 @@ ALTER TABLE Post ADD CONSTRAINT pkPost
 
 ALTER TABLE Post ALTER number_of_likes SET DEFAULT 0;
 ALTER TABLE Post ALTER caption SET DEFAULT ('');
+ALTER TABLE Post ALTER created_at SET DEFAULT NOW();
+
 
 ALTER TABLE Post ADD CONSTRAINT number_of_likes_postitve CHECK(number_of_likes >= 0); 
 
