@@ -16,6 +16,7 @@ const loginRoute = require('./routes/login');
 const userRoute = require('./routes/user');
 const logoutRoute = require('./routes/logout');
 const whoamiRoute = require('./routes/whoami');
+const createPost = require('./routes/createPost');
 
 const app = express();
 
@@ -36,10 +37,6 @@ const pgPool = new pg.Pool({
   port: process.env.DB_PORT,
 });
 
-// app.use((req, res, next) => {
-//   console.log({ session: req.session });
-//   next();
-// });
 
 app.use(session({
   // eslint-disable-next-line new-cap
@@ -71,6 +68,7 @@ app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/logout', logoutRoute);
+app.use('/api/createPost', createPost);
 
 app.get('/api', (req, res, next) => {
   //console.log(req.session);
