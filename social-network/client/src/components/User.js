@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 const User = ({ match }) => {
   useEffect(() => {
     fetchInfo();
+    fetchPosts();
   }, []);
 
   const [name, setName] = useState('');
@@ -16,7 +17,7 @@ const User = ({ match }) => {
   const [image, setImage] = useState('');
   const [newImage, setNewImage] = useState('');
   const [logout, setLogout] = useState('');
-
+  const [posts, setPosts] = useState([]);
   const API_HOST = 'http://localhost:3000/api/';
 
   const selectImage = (event) => {
@@ -53,6 +54,7 @@ const User = ({ match }) => {
     const information = await data.json();
     const { info } = information;
     console.log(information);
+
     if (information.error) {
       console.log(information.error);
       setNotFound(true);
@@ -69,6 +71,15 @@ const User = ({ match }) => {
     setImage(url);
   };
 
+  const fetchPosts = async () => {
+    const { username } = match.params;
+    const data = await fetch(`http://localhost:3000/api/post/${username}`);
+    const response = await data.json();
+    setPosts(response);
+    console.log({ response });
+    return response;
+  };
+
   const logoutHandler = async (event) => {
     event.preventDefault();
     const data = await fetch(`http://localhost:3000/api/logout`);
@@ -76,6 +87,8 @@ const User = ({ match }) => {
     console.log({ info });
     setLogout(info);
   };
+
+  console.log({ posts });
 
   if (logout) return <Redirect to='/login'></Redirect>;
 
@@ -90,11 +103,13 @@ const User = ({ match }) => {
     );
   return (
     <Fragment>
-      <button className='btn btn-danger float-right mt-3' onClick={logoutHandler}>
-          Log Out
-        </button>
+      <button
+        className='btn btn-danger float-right mt-3'
+        onClick={logoutHandler}
+      >
+        Log Out
+      </button>
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
-        
         <form className='m-2 bg-dark'>
           <img
             src={image}
@@ -133,7 +148,6 @@ const User = ({ match }) => {
         </form>
 
         <h2>Posts</h2>
-        <p>The .table-striped class adds zebra-stripes to a table:</p>
         <table className='table table-striped text-white'>
           <thead>
             <tr>
@@ -144,16 +158,16 @@ const User = ({ match }) => {
             </tr>
           </thead>
           <tbody>
-            <tr data-ng-repeat='row in tableRows track by $index'>
-              <td className='word-wrap'>
-                Johnadsasddasdsadsasadsdaassasasadsdaadsasdasdsadsadsaddasadsadsasdsadasdasasdasda
-              </td>
-              <td>12 January</td>
-              <td>0</td>
-              <td>
-                <button className='btn btn-success'>Like</button>
-              </td>
-            </tr>
+            {posts.map((post) => (
+              <tr data-ng-repeat='row in tableRows track by $index'>
+                <td className='word-wrap'>{post.caption}</td>
+                <td>{post.created_at}</td>
+                <td>{post.number_of_likes}</td>
+                <td>
+                  <button className='btn btn-info'>Like</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
