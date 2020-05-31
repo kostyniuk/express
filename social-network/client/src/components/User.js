@@ -158,7 +158,9 @@ const User = ({ match }) => {
             <li className='mt-3'>Bio: {bio}</li>
           </ul>
         </form>
-        
+        </div>
+      
+      <div className='col-lg-12 col-md-8 col-sm-20 mx-auto form p-4 text-wrap text-white'>  
         <div className='d-flex mt-5'>
           <h2>Posts</h2>
           <button className='btn btn-success ml-3' onClick={redirectToCreatePost}>
