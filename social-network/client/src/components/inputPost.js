@@ -29,7 +29,7 @@ const InputPost = ({ match }) => {
     e.preventDefault();
     try {
       const body = { caption };
-      const response = await fetch(`http://localhost:3000/api/createPost`, {
+      const response = await fetch(`http://localhost:3000/api/post`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
