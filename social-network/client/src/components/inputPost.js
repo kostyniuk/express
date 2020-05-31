@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const InputPost = ({ match }) => {
 
@@ -41,11 +42,13 @@ const InputPost = ({ match }) => {
         setResponce(jsonData.err);
       }
       console.log({ jsonData });
-      //window.location = '/';
     } catch (err) {
       console.error(err.message);
     }
   };
+
+  if (responce) return <Redirect to={`/user/${username}`}></Redirect>
+
 
   if (loading) {
     return <h1 className='text-center mt-5 text-white'>Loading...</h1>;
