@@ -90,7 +90,11 @@ const User = ({ match }) => {
     );
   return (
     <Fragment>
+      <button className='btn btn-danger float-right mt-3' onClick={logoutHandler}>
+          Log Out
+        </button>
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
+        
         <form className='m-2 bg-dark'>
           <img
             src={image}
@@ -125,17 +129,10 @@ const User = ({ match }) => {
                 Submit
               </button>
             </div>
-
-            <button
-              className='btn btn-danger w-75 mt-5'
-              onClick={logoutHandler}
-            >
-              Log Out
-            </button>
           </div>
         </form>
 
-        <h2>Striped Rows</h2>
+        <h2>Posts</h2>
         <p>The .table-striped class adds zebra-stripes to a table:</p>
         <table className='table table-striped text-white'>
           <thead>
