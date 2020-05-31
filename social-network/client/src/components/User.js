@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 const User = ({ match }) => {
+  const { username } = match.params;
+
   useEffect(() => {
     fetchInfo();
     fetchPosts();
@@ -18,6 +20,8 @@ const User = ({ match }) => {
   const [newImage, setNewImage] = useState('');
   const [logout, setLogout] = useState('');
   const [posts, setPosts] = useState([]);
+  const [redToCrPost, setRedToCrPost] = useState('');
+
   const API_HOST = 'http://localhost:3000/api/';
 
   const selectImage = (event) => {
@@ -88,9 +92,17 @@ const User = ({ match }) => {
     setLogout(info);
   };
 
+  const redirectToCreatePost = async (event) => {
+    event.preventDefault();
+    setRedToCrPost(true);
+  };
+
   console.log({ posts });
 
   if (logout) return <Redirect to='/login'></Redirect>;
+
+  if (redToCrPost)
+    return <Redirect to={`/user/${username}/createPost`}></Redirect>;
 
   if (notFound)
     return (
@@ -109,23 +121,7 @@ const User = ({ match }) => {
       >
         Log Out
       </button>
-      <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
-        <form className='m-2 bg-dark'>
-          <img
-            src={image}
-            width='200'
-            height='200'
-            class='rounded-circle z-depth-2 mx-auto d-block '
-          />
-          <ul className=''>
-            <li className='mt-3'>Name: {name}</li>
-            <li className='mt-3'>Email: {email}</li>
-            <li className='mt-3'>Age: {age}</li>
-            <li className='mt-3'>Posts: {numberOfPosts}</li>
-            <li className='mt-3'>Bio: {bio}</li>
-          </ul>
-        </form>
-        <form enctype='multipart/form-data'>
+      <form enctype='multipart/form-data'>
           <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-center'>
             <label className='text-white' for='exampleFormControlFile1'>
               Change a profile picture
@@ -146,8 +142,30 @@ const User = ({ match }) => {
             </div>
           </div>
         </form>
+      <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
+        <form className='m-2 bg-dark'>
+          <img
+            src={image}
+            width='200'
+            height='200'
+            class='rounded-circle z-depth-2 mx-auto d-block '
+          />
+          <ul className=''>
+            <li className='mt-3'>Name: {name}</li>
+            <li className='mt-3'>Email: {email}</li>
+            <li className='mt-3'>Age: {age}</li>
+            <li className='mt-3'>Posts: {numberOfPosts}</li>
+            <li className='mt-3'>Bio: {bio}</li>
+          </ul>
+        </form>
+        
+        <div className='d-flex mt-5'>
+          <h2>Posts</h2>
+          <button className='btn btn-success ml-3' onClick={redirectToCreatePost}>
+            Add a new post
+          </button>
+        </div>
 
-        <h2>Posts</h2>
         <table className='table table-striped text-white'>
           <thead>
             <tr>
