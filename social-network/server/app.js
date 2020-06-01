@@ -56,11 +56,11 @@ require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  console.log({ session: req.session });
-  console.log({ user: req.user });
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log({ session: req.session });
+//   console.log({ user: req.user });
+//   next();
+// });
 
 app.use('/api/public', express.static('public'));
 app.use('/api/whoami', whoamiRoute);
