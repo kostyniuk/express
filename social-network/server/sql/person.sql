@@ -12,6 +12,7 @@ ALTER TABLE Person ADD CONSTRAINT pkPerson
 
 ALTER TABLE Person ALTER number_of_posts SET DEFAULT 0;
 ALTER TABLE Person ALTER bio SET DEFAULT ('');
+ALTER TABLE Person ALTER picture SET DEFAULT ('./public/uploads/user_default.png');
 
 ALTER TABLE person ADD CONSTRAINT ageGreater0 CHECK(age > 0); 
 
