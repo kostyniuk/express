@@ -12,11 +12,15 @@ router.post('/', async (req, res, next) => {
   try {
     const { email, fullName, age, username, password } = req.body;
 
-    const hash = genPassword(password, process.env.SALT);
+    const hash = await genPassword(password, process.env.SALT);
+
+    console.log({hash})
 
     const queryUser = `INSERT INTO user_info (username, password) VALUES ($1, $2) RETURNING user_id;`;
     const valuesUser = [username, hash];
     let { rows } = await db.query(queryUser, valuesUser);
+
+    console.log({rows})
 
     const id = rows[0].user_id;
 

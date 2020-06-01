@@ -65,6 +65,8 @@ const User = ({ match }) => {
       return;
     }
 
+    // TODO: ADD INITIAL PROFILE PHOTO TO EVERY NEW USER
+
     const url = API_HOST + info.picture.split('./', 2)[1];
 
     setName(info.fullname);
