@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import ChangeProfilePhoto from './ChangeProfilePhoto';
 import DeleteTh from './DeleteComponents/DeleteTh';
 import DeleteButton from './DeleteComponents/DeleteButton';
 
@@ -29,32 +30,6 @@ const User = ({ match }) => {
 
   const API_HOST = 'http://localhost:3000/api/';
 
-  const selectImage = (event) => {
-    console.log(event.target.files[0]);
-    setNewImage(event.target.files[0]);
-  };
-
-  const setProfilePhoto = async (event) => {
-    const { username } = match.params;
-    event.preventDefault();
-    console.log({ image });
-    const fd = new FormData();
-    fd.append('profilePhoto', newImage);
-    console.log({ fd, username });
-    const response = await fetch(
-      `http://localhost:3000/api/user/${username}/addPicture`,
-      {
-        method: 'POST',
-        body: fd,
-      }
-    );
-
-    const data = await response.json();
-    console.log(data);
-
-    setPictureLink(API_HOST + data.src);
-  };
-
   const fetchInfo = async () => {
     const { username } = match.params;
     console.log({ username });
@@ -69,8 +44,6 @@ const User = ({ match }) => {
       setNotFound(true);
       return;
     }
-
-    // TODO: ADD INITIAL PROFILE PHOTO TO EVERY NEW USER
 
     const url = API_HOST + info.picture.split('./', 2)[1];
 
@@ -133,24 +106,7 @@ const User = ({ match }) => {
       >
         Log Out
       </button>
-      <form enctype='multipart/form-data'>
-        <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-center'>
-          <label className='text-white' for='exampleFormControlFile1'>
-            Change a profile picture
-          </label>
-          <div className='d-flex'>
-            <input
-              type='file'
-              name='profilePhoto'
-              class='form-control-file '
-              onChange={selectImage}
-            />
-            <button className='btn btn-success ml-3' onClick={setProfilePhoto}>
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
+      <ChangeProfilePhoto loggedInUser={loggedInUser} username={username} />
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
         <form className='m-2 bg-dark'>
           <img
