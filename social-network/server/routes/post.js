@@ -9,7 +9,6 @@ const router = express.Router();
 router.get('/:username', async (req, res, next) => {
   try {
     const { username } = req.params;
-    console.log({ username });
 
     const query = `SELECT post.post_id, post.caption, post.created_at, post.number_of_likes 
     FROM Post
@@ -19,7 +18,7 @@ router.get('/:username', async (req, res, next) => {
     const parametrs = [username];
 
     const { rows } = await db.query(query, parametrs);
-    console.log({ posts: rows });
+    //console.log({ posts: rows });
     res.json(rows);
   } catch (e) {
     console.error(e);
@@ -42,7 +41,7 @@ router.post('/', async (req, res, next) => {
 
     const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
 
-    console.log({ rows, update: result.rows });
+    //console.log({ rows, update: result.rows });
 
     res.json({
       message: 'The post was successfully created',
@@ -52,5 +51,34 @@ router.post('/', async (req, res, next) => {
     console.error(e);
   }
 });
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    console.log({id})
+
+    const { user_id } = req.user;
+
+    const queryInsert = `DELETE FROM post WHERE post_id = $1`;
+    const paramsInsert = [id];
+
+    const { rows } = await db.query(queryInsert, paramsInsert);
+
+    const queryUpdateNumOfPosts = `UPDATE person SET number_of_posts = number_of_posts - 1 WHERE person_id = $1;`
+    const paramsUpdate = [user_id];
+
+    const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
+
+    console.log({ rows, update: result.rows });
+
+    res.json({
+      message: 'The post was successfully deleted',
+      username: req.user.username,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+})
 
 module.exports = router;
