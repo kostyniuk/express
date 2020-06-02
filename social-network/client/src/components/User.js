@@ -7,6 +7,7 @@ const User = ({ match }) => {
   useEffect(() => {
     fetchInfo();
     fetchPosts();
+    fetchAuthentificeted();
   }, []);
 
   const [name, setName] = useState('');
@@ -21,6 +22,7 @@ const User = ({ match }) => {
   const [logout, setLogout] = useState('');
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
 
   const API_HOST = 'http://localhost:3000/api/';
 
@@ -77,12 +79,19 @@ const User = ({ match }) => {
     setImage(url);
   };
 
+  const fetchAuthentificeted = async () => {
+    const data = await fetch(`http://localhost:3000/api/whoami`);
+    const response = await data.json();
+    setLoggedInUser(response.user);
+    console.log({ response });
+    console.log({ logged: response });
+  }
+
   const fetchPosts = async () => {
     const { username } = match.params;
     const data = await fetch(`http://localhost:3000/api/post/${username}`);
     const response = await data.json();
     setPosts(response);
-    console.log({ response });
     return response;
   };
 
@@ -99,7 +108,28 @@ const User = ({ match }) => {
     setRedToCrPost(true);
   };
 
-  console.log({ posts });
+
+  const DeleteTh = () => {
+    if (loggedInUser === username) {
+      return (
+        <th>Delete</th>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const DeleteButton = () => {
+    if (loggedInUser === username) {
+      return (
+        <td>
+          <button className='btn btn-danger'>Delete</button>
+        </td>
+      );
+    } else {
+      return null;
+    }
+  };
 
   if (logout) return <Redirect to='/login'></Redirect>;
 
@@ -124,26 +154,23 @@ const User = ({ match }) => {
         Log Out
       </button>
       <form enctype='multipart/form-data'>
-          <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-center'>
-            <label className='text-white' for='exampleFormControlFile1'>
-              Change a profile picture
-            </label>
-            <div className='d-flex'>
-              <input
-                type='file'
-                name='profilePhoto'
-                class='form-control-file '
-                onChange={selectImage}
-              />
-              <button
-                className='btn btn-success ml-3'
-                onClick={setProfilePhoto}
-              >
-                Submit
-              </button>
-            </div>
+        <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-center'>
+          <label className='text-white' for='exampleFormControlFile1'>
+            Change a profile picture
+          </label>
+          <div className='d-flex'>
+            <input
+              type='file'
+              name='profilePhoto'
+              class='form-control-file '
+              onChange={selectImage}
+            />
+            <button className='btn btn-success ml-3' onClick={setProfilePhoto}>
+              Submit
+            </button>
           </div>
-        </form>
+        </div>
+      </form>
       <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
         <form className='m-2 bg-dark'>
           <img
@@ -160,12 +187,15 @@ const User = ({ match }) => {
             <li className='mt-3'>Bio: {bio}</li>
           </ul>
         </form>
-        </div>
-      
-      <div className='col-lg-12 col-md-8 col-sm-20 mx-auto form p-4 text-wrap text-white'>  
+      </div>
+
+      <div className='col-lg-12 col-md-8 col-sm-20 mx-auto form p-4 text-wrap text-white'>
         <div className='d-flex mt-5'>
           <h2>Posts</h2>
-          <button className='btn btn-success ml-3' onClick={redirectToCreatePost}>
+          <button
+            className='btn btn-success ml-3'
+            onClick={redirectToCreatePost}
+          >
             Add a new post
           </button>
         </div>
@@ -177,6 +207,7 @@ const User = ({ match }) => {
               <th>Date</th>
               <th>Likes</th>
               <th>Like</th>
+              <DeleteTh />
             </tr>
           </thead>
           <tbody>
@@ -188,6 +219,7 @@ const User = ({ match }) => {
                 <td>
                   <button className='btn btn-info'>Like</button>
                 </td>
+                <DeleteButton />
               </tr>
             ))}
           </tbody>

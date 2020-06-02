@@ -11,7 +11,7 @@ router.get('/:username', async (req, res, next) => {
     const { username } = req.params;
     console.log({ username });
 
-    const query = `SELECT post.caption, post.created_at, post.number_of_likes 
+    const query = `SELECT post.post_id, post.caption, post.created_at, post.number_of_likes 
     FROM Post
     JOIN user_info ON user_info.user_id = post.creator_id
     WHERE user_info.username = $1
@@ -32,11 +32,17 @@ router.post('/', async (req, res, next) => {
 
     const { user_id } = req.user;
 
-    const query = `INSERT INTO post (creator_id, caption) VALUES ($1, $2);`;
-    const params = [user_id, caption];
+    const queryInsert = `INSERT INTO post (creator_id, caption) VALUES ($1, $2);`;
+    const paramsInsert = [user_id, caption];
 
-    const { rows } = await db.query(query, params);
-    console.log({ rows });
+    const { rows } = await db.query(queryInsert, paramsInsert);
+
+    const queryUpdateNumOfPosts = `UPDATE person SET number_of_posts = number_of_posts + 1 WHERE person_id = $1;`
+    const paramsUpdate = [user_id];
+
+    const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
+
+    console.log({ rows, update: result.rows });
 
     res.json({
       message: 'The post was successfully created',
