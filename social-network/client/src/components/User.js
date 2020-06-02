@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 
 import ChangeProfilePhoto from './ChangeProfilePhoto';
 import DeleteTh from './DeleteComponents/DeleteTh';
-import DeleteButton from './DeleteComponents/DeleteButton';
 
 const User = ({ match }) => {
   const { username } = match.params;
@@ -20,9 +19,7 @@ const User = ({ match }) => {
   const [email, setEmail] = useState('');
   const [numberOfPosts, setNumberOfPosts] = useState('');
   const [notFound, setNotFound] = useState('');
-  const [pictureUrl, setPictureLink] = useState('');
   const [image, setImage] = useState('');
-  const [newImage, setNewImage] = useState('');
   const [logout, setLogout] = useState('');
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
@@ -61,7 +58,7 @@ const User = ({ match }) => {
     setLoggedInUser(response.user);
     console.log({ response });
     console.log({ logged: response });
-  }
+  };
 
   const fetchPosts = async () => {
     const { username } = match.params;
@@ -82,6 +79,33 @@ const User = ({ match }) => {
   const redirectToCreatePost = async (event) => {
     event.preventDefault();
     setRedToCrPost(true);
+  };
+
+  const deletePost = async (id) => {
+    try {
+      console.log({id})
+      const responce = await fetch(`http://localhost:3000/api/post/${id}`, {method: 'DELETE'});
+      const data = await responce.json();
+
+      console.log({ data });
+
+      setPosts(posts.filter((post) => post.post_id !== id));
+      setNumberOfPosts(numberOfPosts - 1);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const DeleteButton = ({loggedInUser, username, id}) => {
+    if (loggedInUser === username) {
+      return (
+        <td>
+          <button className='btn btn-danger' onClick={() => deletePost(id)}>Delete</button>
+        </td>
+      );
+    } else {
+      return null;
+    }
   };
 
   if (logout) return <Redirect to='/login'></Redirect>;
@@ -143,19 +167,26 @@ const User = ({ match }) => {
               <th>Date</th>
               <th>Likes</th>
               <th>Like</th>
-              <DeleteTh loggedInUser={loggedInUser} username={username}/>
+              <DeleteTh loggedInUser={loggedInUser} username={username} />
             </tr>
           </thead>
           <tbody>
             {posts.map((post) => (
-              <tr data-ng-repeat='row in tableRows track by $index'>
+              <tr
+                key={post.post_id}
+                data-ng-repeat='row in tableRows track by $index'
+              >
                 <td className='word-wrap'>{post.caption}</td>
                 <td>{post.created_at}</td>
                 <td>{post.number_of_likes}</td>
                 <td>
                   <button className='btn btn-info'>Like</button>
                 </td>
-                <DeleteButton loggedInUser={loggedInUser} username={username}/>
+                <DeleteButton
+                  loggedInUser={loggedInUser}
+                  username={username}
+                  id = {post.post_id}
+                />
               </tr>
             ))}
           </tbody>
