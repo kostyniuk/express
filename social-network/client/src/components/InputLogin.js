@@ -1,12 +1,29 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 
 const InputLogIn = () => {
+
+  const [authorized, setAuthorized] = useState(false)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
   const [textColor, setTextColor] = useState('text-danger');
+
+  useEffect(() => {
+    isAuthorized()
+  }, [])
+
+  const isAuthorized = async () => {
+    const responce = await fetch('http://localhost:3000/api/whoami');
+    const data = await responce.json();
+    if (data.authentificated) {
+      setAuthorized(data.user);
+      setLoading(false);
+    }
+  };
+
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
@@ -35,6 +52,10 @@ const InputLogIn = () => {
     }
   };
 
+  if (loading) {
+    return <h1 className='text-center mt-5 text-white'>Loading...</h1>;
+  }
+  if (authorized) return <Redirect to={`/user/${authorized}`}></Redirect>
   if (err === false) return <Redirect to={`/user/${username}`}></Redirect>
 
   return (
