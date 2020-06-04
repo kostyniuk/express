@@ -62,7 +62,7 @@ const User = ({ match }) => {
 
   const fetchPosts = async () => {
     const { username } = match.params;
-    const data = await fetch(`http://localhost:3000/api/post/${username}`);
+    const data = await fetch(`http://localhost:3000/api/user/${username}/post`);
     const response = await data.json();
     setPosts(response);
     return response;
@@ -84,7 +84,7 @@ const User = ({ match }) => {
   const deletePost = async (id) => {
     try {
       console.log({id})
-      const responce = await fetch(`http://localhost:3000/api/post/${id}`, {method: 'DELETE'});
+      const responce = await fetch(`http://localhost:3000/api/user/${username}/post/${id}`, {method: 'DELETE'});
       const data = await responce.json();
 
       console.log({ data });
@@ -107,6 +107,7 @@ const User = ({ match }) => {
       return null;
     }
   };
+
 
   if (logout) return <Redirect to='/login'></Redirect>;
 
