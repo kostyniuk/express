@@ -16,7 +16,6 @@ const loginRoute = require('./routes/login');
 const userRoute = require('./routes/user');
 const logoutRoute = require('./routes/logout');
 const whoamiRoute = require('./routes/whoami');
-const postRoute = require('./routes/post');
 
 const app = express();
 
@@ -68,7 +67,6 @@ app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/logout', logoutRoute);
-app.use('/api/post', postRoute);
 
 app.get('/api', (req, res, next) => {
   //console.log(req.session);
