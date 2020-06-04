@@ -4,6 +4,12 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 
+const {findIdByUserName, personInfoById} = require('../lib/sqlUtils');
+const db = require('../config/db');
+
+const router = express.Router();
+
+// multer config
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function (req, file, cb) {
@@ -19,10 +25,95 @@ const upload = multer({
   limits: { fileSize: 1024 * 1024 * 5 },
 });
 
-const db = require('../config/db');
+//users handling
+router.get('/:nickname', async (req, res, next) => {
+  try {
+    const { nickname } = req.params;
 
-const router = express.Router();
+    const id = await findIdByUserName(nickname, res);
 
+    const info = await personInfoById(id, res);
+
+    res.json({ nickname, info });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// posts handling
+router.get('/:nickname/post', async (req, res, next) => {
+  try {
+    const { nickname } = req.params;
+
+    const query = `SELECT post.post_id, post.caption, post.created_at, post.number_of_likes 
+    FROM Post
+    JOIN user_info ON user_info.user_id = post.creator_id
+    WHERE user_info.username = $1
+    ORDER BY post.post_id DESC;`;
+    const parametrs = [nickname];
+
+    const { rows } = await db.query(query, parametrs);
+    res.json(rows);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.post('/:nickname/post', async (req, res, next) => {
+  try {
+    const { caption } = req.body;
+
+    const { user_id } = req.user;
+
+    const queryInsert = `INSERT INTO post (creator_id, caption) VALUES ($1, $2);`;
+    const paramsInsert = [user_id, caption];
+
+    const { rows } = await db.query(queryInsert, paramsInsert);
+
+    const queryUpdateNumOfPosts = `UPDATE person SET number_of_posts = number_of_posts + 1 WHERE person_id = $1;`;
+    const paramsUpdate = [user_id];
+
+    const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
+
+    res.json({
+      message: 'The post was successfully created',
+      username: req.user.username,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.delete('/:nickname/post/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    console.log({ id });
+
+    const { user_id } = req.user;
+
+    const queryInsert = `DELETE FROM post WHERE post_id = $1`;
+    const paramsInsert = [id];
+
+    const { rows } = await db.query(queryInsert, paramsInsert);
+
+    const queryUpdateNumOfPosts = `UPDATE person SET number_of_posts = number_of_posts - 1 WHERE person_id = $1;`;
+    const paramsUpdate = [user_id];
+
+    const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
+
+    console.log({ rows, update: result.rows });
+
+    res.json({
+      message: 'The post was successfully deleted',
+      username: req.user.username,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// Profile photos handling
 // middleware to check if a user can change the profile picture
 router.use('/:nickname/addPicture', (req, res, next) => {
   const { nickname } = req.params;
@@ -32,62 +123,12 @@ router.use('/:nickname/addPicture', (req, res, next) => {
     } else {
       res
         .status(403)
-        .json("err: You don't have permissions to change the profile picture of other users");
+        .json(
+          "err: You don't have permissions to change the profile picture of other users"
+        );
     }
   } else {
-    res
-      .status(401)
-      .json("err: You aren\'t authorized");
-  }
-});
-
-const findIdByUserName = async (nickname, res) => {
-  const queryUser = `SELECT user_id from user_info WHERE username = $1;`;
-  const valuesUser = [nickname];
-  let { rows } = await db.query(queryUser, valuesUser);
-  if (rows.length === 0) {
-    //throw(new Error(`There is no user ${nickname}`));
-    res.status(404).json({ error: `There is no user ${nickname}` });
-  }
-  return rows[0].user_id;
-};
-
-const personInfoById = async (id, res) => {
-  const queryUser = `SELECT * from person WHERE person_id = $1;`;
-  const valuesUser = [id];
-  let { rows } = await db.query(queryUser, valuesUser);
-  let info = rows[0];
-  //delete info.person_id;
-  return info;
-};
-
-router.get('/:nickname', async (req, res, next) => {
-  try {
-    const { nickname } = req.params;
-    //console.log({ nickname });
-    //console.log(req.session)
-
-    const id = await findIdByUserName(nickname, res);
-    //console.log({ id });
-
-    const info = await personInfoById(id, res);
-    //console.log({info})
-    res.json({ nickname, info });
-  } catch (e) {
-    console.error(e);
-  }
-});
-
-router.get('/:nickname/createPost', (req, res, next) => {
-  console.log(req.session, nickname);
-  console.log(req.session.username, nickname);
-  console.log();
-  if (req.session.username === nickname) {
-    console.log('username');
-    res.json('Create a new Post');
-  } else {
-    console.log('no username');
-    res.status(403).json({ e: 'error' });
+    res.status(401).json("err: You aren't authorized");
   }
 });
 
