@@ -4,7 +4,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 
-const {findIdByUserName, personInfoById} = require('../lib/sqlUtils');
+const { findIdByUserName, personInfoById } = require('../lib/sqlUtils');
 const db = require('../config/db');
 
 const router = express.Router();
@@ -59,7 +59,15 @@ router.get('/:nickname/post', async (req, res, next) => {
   }
 });
 
-router.post('/:nickname/post', async (req, res, next) => {
+const isAvailable = (req, res, next) => {
+  const { nickname } = req.params;
+  const { username } = req.user;
+
+  if (nickname === username) return next();
+  res.status(403).json({ err: `You aren't allowed to be here` });
+};
+
+router.post('/:nickname/post', isAvailable, async (req, res, next) => {
   try {
     const { caption } = req.body;
 
@@ -84,12 +92,9 @@ router.post('/:nickname/post', async (req, res, next) => {
   }
 });
 
-router.delete('/:nickname/post/:id', async (req, res, next) => {
+router.delete('/:nickname/post/:id', isAvailable, async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    console.log({ id });
-
     const { user_id } = req.user;
 
     const queryInsert = `DELETE FROM post WHERE post_id = $1`;
@@ -101,8 +106,6 @@ router.delete('/:nickname/post/:id', async (req, res, next) => {
     const paramsUpdate = [user_id];
 
     const result = await db.query(queryUpdateNumOfPosts, paramsUpdate);
-
-    console.log({ rows, update: result.rows });
 
     res.json({
       message: 'The post was successfully deleted',
