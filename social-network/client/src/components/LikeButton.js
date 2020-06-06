@@ -4,14 +4,18 @@ const LikeButton = () => {
   const [likes, setLikes] = useState(0);
 
   const addLike = () => {
-    setLikes(likes+1);
+    if (likes) {
+      setLikes(0);
+    } else {
+      setLikes(likes + 1);
+    }
   };
 
   if (likes === 0) {
     return (
       <div>
         <button className='button' onClick={addLike}>
-          <i className='far fa-heart fa-lg' style={{ color: '#33c3f0' }}></i>
+          <i className='far fa-heart fa-lg' style={{ color: 'white' }}></i>
         </button>
       </div>
     );
