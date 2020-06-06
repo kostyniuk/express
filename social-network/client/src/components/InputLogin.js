@@ -18,10 +18,10 @@ const InputLogIn = () => {
   const isAuthorized = async () => {
     const responce = await fetch('http://localhost:3000/api/whoami');
     const data = await responce.json();
+    setLoading(false);
     if (data.authentificated) {
       setAuthorized(data.user);
-      setLoading(false);
-    }
+    } 
   };
 
   const onSubmitForm = async (e) => {
