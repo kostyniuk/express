@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import ChangeProfilePhoto from './ChangeProfilePhoto';
 import DeleteTh from './DeleteComponents/DeleteTh';
+import LikeButton from './LikeButton';
 
 const User = ({ match }) => {
   const { username } = match.params;
@@ -83,8 +84,11 @@ const User = ({ match }) => {
 
   const deletePost = async (id) => {
     try {
-      console.log({id})
-      const responce = await fetch(`http://localhost:3000/api/user/${username}/post/${id}`, {method: 'DELETE'});
+      console.log({ id });
+      const responce = await fetch(
+        `http://localhost:3000/api/user/${username}/post/${id}`,
+        { method: 'DELETE' }
+      );
       const data = await responce.json();
 
       console.log({ data });
@@ -96,18 +100,19 @@ const User = ({ match }) => {
     }
   };
 
-  const DeleteButton = ({loggedInUser, username, id}) => {
+  const DeleteButton = ({ loggedInUser, username, id }) => {
     if (loggedInUser === username) {
       return (
         <td>
-          <button className='btn btn-danger' onClick={() => deletePost(id)}>Delete</button>
+          <button className='btn btn-danger' onClick={() => deletePost(id)}>
+            Delete
+          </button>
         </td>
       );
     } else {
       return null;
     }
   };
-
 
   if (logout) return <Redirect to='/login'></Redirect>;
 
@@ -181,12 +186,13 @@ const User = ({ match }) => {
                 <td>{post.created_at}</td>
                 <td>{post.number_of_likes}</td>
                 <td>
-                  <button className='btn btn-info'>Like</button>
+                <LikeButton />
+
                 </td>
                 <DeleteButton
                   loggedInUser={loggedInUser}
                   username={username}
-                  id = {post.post_id}
+                  id={post.post_id}
                 />
               </tr>
             ))}
