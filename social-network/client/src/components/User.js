@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import ChangeProfilePhoto from './ChangeProfilePhoto';
+import DeleteButton from './DeleteComponents/DeleteButton';
 import DeleteTh from './DeleteComponents/DeleteTh';
 import LikeButton from './LikeButton';
 
@@ -100,20 +101,6 @@ const User = ({ match }) => {
     }
   };
 
-  const DeleteButton = ({ loggedInUser, username, id }) => {
-    if (loggedInUser === username) {
-      return (
-        <td>
-          <button className='btn btn-danger' onClick={() => deletePost(id)}>
-            Delete
-          </button>
-        </td>
-      );
-    } else {
-      return null;
-    }
-  };
-
   if (logout) return <Redirect to='/login'></Redirect>;
 
   if (redToCrPost)
@@ -193,6 +180,7 @@ const User = ({ match }) => {
                   loggedInUser={loggedInUser}
                   username={username}
                   id={post.post_id}
+                  handler={deletePost}
                 />
               </tr>
             ))}
