@@ -2,9 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import ChangeProfilePhoto from './ChangeProfilePhoto';
-import DeleteButton from './DeleteComponents/DeleteButton';
-import DeleteTh from './DeleteComponents/DeleteTh';
-import LikeButton from './LikeButton';
+import PostsComponent from './PostComponents/PostsComponent';
+import BioComponent from './BioComponent';
 
 const User = ({ match }) => {
   const { username } = match.params;
@@ -58,8 +57,6 @@ const User = ({ match }) => {
     const data = await fetch(`http://localhost:3000/api/whoami`);
     const response = await data.json();
     setLoggedInUser(response.user);
-    console.log({ response });
-    console.log({ logged: response });
   };
 
   const fetchPosts = async () => {
@@ -124,69 +121,22 @@ const User = ({ match }) => {
         Log Out
       </button>
       <ChangeProfilePhoto loggedInUser={loggedInUser} username={username} />
-      <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
-        <form className='m-2 bg-dark'>
-          <img
-            src={image}
-            width='200'
-            height='200'
-            class='rounded-circle z-depth-2 mx-auto d-block '
-          />
-          <ul className=''>
-            <li className='mt-3'>Name: {name}</li>
-            <li className='mt-3'>Email: {email}</li>
-            <li className='mt-3'>Age: {age}</li>
-            <li className='mt-3'>Posts: {numberOfPosts}</li>
-            <li className='mt-3'>Bio: {bio}</li>
-          </ul>
-        </form>
-      </div>
+      <BioComponent
+        image={image}
+        name={name}
+        email={email}
+        age={age}
+        numberOfPosts={numberOfPosts}
+        bio={bio}
+      />
 
-      <div className='col-lg-12 col-md-8 col-sm-20 mx-auto form p-4 text-wrap text-white'>
-        <div className='d-flex mt-5'>
-          <h2>Posts</h2>
-          <button
-            className='btn btn-success ml-3'
-            onClick={redirectToCreatePost}
-          >
-            Add a new post
-          </button>
-        </div>
-
-        <table className='table table-striped text-white'>
-          <thead>
-            <tr>
-              <th>Caption</th>
-              <th>Date</th>
-              <th>Likes</th>
-              <th>Like</th>
-              <DeleteTh loggedInUser={loggedInUser} username={username} />
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map((post) => (
-              <tr
-                key={post.post_id}
-                data-ng-repeat='row in tableRows track by $index'
-              >
-                <td className='word-wrap'>{post.caption}</td>
-                <td>{post.created_at}</td>
-                <td>{post.number_of_likes}</td>
-                <td>
-                <LikeButton />
-
-                </td>
-                <DeleteButton
-                  loggedInUser={loggedInUser}
-                  username={username}
-                  id={post.post_id}
-                  handler={deletePost}
-                />
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <PostsComponent
+        redirectToCreatePost={redirectToCreatePost}
+        loggedInUser={loggedInUser}
+        username={username}
+        posts={posts}
+        deletePost={deletePost}
+      />
     </Fragment>
   );
 };
