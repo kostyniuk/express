@@ -29,16 +29,5 @@ const LikeButton = () => {
       </div>
     );
   }
-  if (likes > 1) {
-    return (
-      <div>
-        <button className='button' onClick={addLike}>
-          <i className='fas fa-heart fa-lg' style={{ color: 'red' }}></i>{' '}
-          {likes}
-        </button>
-      </div>
-    );
-  }
-};
-
+}
 export default LikeButton;
