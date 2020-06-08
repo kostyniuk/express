@@ -28,15 +28,6 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .word-wrap {
   word-break: break-all;
 }
@@ -51,3 +42,22 @@
   background-color: transparent;
   border: none;
 }
+
+.containerP {
+  position: relative;
+  width: 100%;
+}
+
+.profile-picture {
+  opacity: 1;
+  display: block;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.containerP:hover .profile-picture {
+  opacity: 0.35;
+}
+
+
