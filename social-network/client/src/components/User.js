@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import ChangeProfilePhoto from './ChangeProfilePhoto';
 import PostsComponent from './PostComponents/PostsComponent';
 import BioComponent from './BioComponent';
 
@@ -120,8 +119,9 @@ const User = ({ match }) => {
       >
         Log Out
       </button>
-      <ChangeProfilePhoto loggedInUser={loggedInUser} username={username} />
       <BioComponent
+        loggedInUser={loggedInUser}
+        username={username}
         image={image}
         name={name}
         email={email}
