@@ -13,6 +13,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function (req, file, cb) {
+    console.log(file)
     cb(
       null,
       'user_' + req.user.username + '.' + file.originalname.split('.')[1]
@@ -139,8 +140,31 @@ router.post(
   '/:nickname/addPicture',
   upload.single('profilePhoto'),
   async (req, res, next) => {
+
     const { nickname } = req.params;
+    console.log(req.file)
     const path = process.env.PROFILE_PICTURES_FOLDER + req.file.filename;
+
+    const { rows } = await db.query(
+      `UPDATE person p
+    SET picture = $1
+    from user_info u
+    WHERE p.person_id = u.user_id AND u.username = $2`,
+      [path, nickname]
+    );
+
+    res.json({ src: path });
+  }
+);
+
+router.post(
+  '/:nickname/deletePicture',
+  upload.single('profilePhoto'),
+  async (req, res, next) => {
+
+    const { nickname } = req.params;
+    console.log(req.file)
+    const path = process.env.PROFILE_PICTURES_FOLDER + 'user_default.png';
 
     const { rows } = await db.query(
       `UPDATE person p
