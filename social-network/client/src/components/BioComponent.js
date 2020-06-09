@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PictureClickModal from './PictureClickModal';
 
 const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
+  const [modalShow, setModalShow] = useState(false);
+
   return (
     <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
       <form className='m-2 bg-dark'>
         &nbsp;
         <div className='containerP d-flex justify-content-center'>
-          <button className='invisible'>
+          <button type='button' className='invisible' data-toggle='modal'
+        data-target='#exampleModalCenter'>
             <img
               src={image}
               title='Change profile picture'
@@ -29,6 +33,7 @@ const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
           <li className='mt-3'>Bio: {bio}</li>
         </ul>
         &nbsp;
+        <PictureClickModal />
       </form>
     </div>
   );
