@@ -1,13 +1,8 @@
 import React from 'react';
-import Modal from 'react-modal';
-
-// Modal.setAppElement('#yourAppElement')
 
 const PictureClickModal = () => {
   return (
     <div>
-      
-
       <div
         class='modal fade'
         id='exampleModalCenter'
