@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PictureClickModal from './PictureClickModal';
 
-const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
-  const [modalShow, setModalShow] = useState(false);
+const Bio = ({ loggedInUser, username, image, name, email, age, numberOfPosts, bio }) => {
 
   return (
     <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
@@ -13,7 +12,7 @@ const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
         data-target='#exampleModalCenter'>
             <img
               src={image}
-              title='Change profile picture'
+              title={'Change profile picture'} // TODO
               width='200'
               height='200'
               alt='sfd'
@@ -33,7 +32,7 @@ const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
           <li className='mt-3'>Bio: {bio}</li>
         </ul>
         &nbsp;
-        <PictureClickModal />
+        <PictureClickModal loggedInUser={loggedInUser} username={username}/>
       </form>
     </div>
   );
