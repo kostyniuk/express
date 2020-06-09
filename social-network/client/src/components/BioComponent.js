@@ -5,19 +5,21 @@ const Bio = ({ image, name, email, age, numberOfPosts, bio }) => {
     <div className='col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4 text-wrap text-white'>
       <form className='m-2 bg-dark'>
         &nbsp;
-        <div className='containerP'>
-          <img
-            src={image}
-            title='Change profile picture'
-            width='200'
-            height='200'
-            alt='sfd'
-            style={{ cursor: 'pointer' }}
-            class='profile-picture rounded-circle z-depth-2 mx-auto d-block '
-            onClick={() => {
-              console.log('clicked');
-            }}
-          />
+        <div className='containerP d-flex justify-content-center'>
+          <button className='invisible'>
+            <img
+              src={image}
+              title='Change profile picture'
+              width='200'
+              height='200'
+              alt='sfd'
+              style={{ cursor: 'pointer' }}
+              class='profile-picture visible rounded-circle z-depth-2 mx-auto d-block '
+              onClick={() => {
+                console.log('clicked');
+              }}
+            />
+          </button>
         </div>
         <ul className=''>
           <li className='mt-3'>Name: {name}</li>
