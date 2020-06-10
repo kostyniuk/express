@@ -13,7 +13,7 @@ require('dotenv').config();
 
 const signupRoute = require('./routes/signup');
 const loginRoute = require('./routes/login');
-const userRoute = require('./routes/user');
+const userRoute = require('./routes/user/user');
 const logoutRoute = require('./routes/logout');
 const whoamiRoute = require('./routes/whoami');
 
