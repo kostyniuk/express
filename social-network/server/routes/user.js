@@ -6,6 +6,7 @@ const fs = require('fs');
 
 const { findIdByUserName, personInfoById } = require('../lib/sqlUtils');
 const db = require('../config/db');
+const isAvailable = require('../lib/isOwnPage');
 
 const router = express.Router();
 
@@ -59,14 +60,6 @@ router.get('/:nickname/post', async (req, res, next) => {
     console.error(e);
   }
 });
-
-const isAvailable = (req, res, next) => {
-  const { nickname } = req.params;
-  const { username } = req.user;
-
-  if (nickname === username) return next();
-  res.status(403).json({ err: `You aren't allowed to be here` });
-};
 
 router.post('/:nickname/post', isAvailable, async (req, res, next) => {
   try {
