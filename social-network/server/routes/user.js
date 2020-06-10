@@ -13,7 +13,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function (req, file, cb) {
-    console.log(file)
+    console.log(file);
     cb(
       null,
       'user_' + req.user.username + '.' + file.originalname.split('.')[1]
@@ -118,31 +118,14 @@ router.delete('/:nickname/post/:id', isAvailable, async (req, res, next) => {
 });
 
 // Profile photos handling
-// middleware to check if a user can change the profile picture
-router.use('/:nickname/addPicture', (req, res, next) => {
-  const { nickname } = req.params;
-  if (req.user) {
-    if (req.user.username === nickname) {
-      next();
-    } else {
-      res
-        .status(403)
-        .json(
-          "err: You don't have permissions to change the profile picture of other users"
-        );
-    }
-  } else {
-    res.status(401).json("err: You aren't authorized");
-  }
-});
 
 router.post(
   '/:nickname/addPicture',
+  isAvailable,
   upload.single('profilePhoto'),
   async (req, res, next) => {
-
     const { nickname } = req.params;
-    console.log(req.file)
+    console.log(req.file);
     const path = process.env.PROFILE_PICTURES_FOLDER + req.file.filename;
 
     const { rows } = await db.query(
@@ -159,11 +142,11 @@ router.post(
 
 router.post(
   '/:nickname/deletePicture',
+  isAvailable,
   upload.single('profilePhoto'),
   async (req, res, next) => {
-
     const { nickname } = req.params;
-    console.log(req.file)
+    console.log(req.file);
     const path = process.env.PROFILE_PICTURES_FOLDER + 'user_default.png';
 
     const { rows } = await db.query(
