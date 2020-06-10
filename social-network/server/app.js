@@ -59,7 +59,7 @@ app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/logout', logoutRoute);
-app.use('api/like', likeRoute);
+app.use('/api/like', likeRoute);
 
 app.get('/api', (req, res, next) => {
   res.status(300);
