@@ -20,8 +20,8 @@ const PictureClickModal = ({ loggedInUser, username }) => {
     fd.append('profilePhoto', newImage);
     console.log({ newImage });
     console.log({ fd, username });
-    const method = removed ? 'DELETE' : 'POST'
-    console.log({method, removed})
+    const method = removed ? 'DELETE' : 'POST';
+    console.log({ method, removed });
 
     let url = `http://localhost:3000/api/user/${username}/addPicture`;
 
@@ -52,7 +52,7 @@ const PictureClickModal = ({ loggedInUser, username }) => {
         >
           <div class='modal-dialog modal-dialog-centered' role='document'>
             <div class='modal-content' style={{ background: '#282c34' }}>
-              <div class='modal-header'>
+              <div class='modal-header text-center'>
                 <h5 class='modal-title' id='exampleModalLongTitle'>
                   Change Profile Photo
                 </h5>
@@ -95,23 +95,36 @@ const PictureClickModal = ({ loggedInUser, username }) => {
                     onClick={deleteImage.bind(null)}
                   />
                 </div>
-              </div>
-              <div class='modal-footer'>
-                <button
-                  type='button'
-                  class='btn btn-secondary'
-                  data-dismiss='modal'
-                >
-                  Close
-                </button>
-                <button
-                  type='button'
-                  class='btn btn-primary'
-                  data-dismiss='modal'
-                  onClick={setProfilePhoto}
-                >
-                  {removed ? 'Are you sure?' : 'Submit'}
-                </button>
+                <hr style={{ background: 'white' }}></hr>
+                <div class='button-wrapper'>
+                  <span class='label text-success'>Submit</span>
+
+                  <input
+                    title=''
+                    type='button'
+                    name='profilePhoto'
+                    id='upload'
+                    class='upload-box'
+                    placeholder='Upload File'
+                    data-dismiss='modal'
+                    onClick={setProfilePhoto}
+                  />
+                </div>
+                <hr style={{ background: 'white' }}></hr>
+                <div class='button-wrapper'>
+                  <span class='label text-light'>Cancel</span>
+
+                  <input
+                    title=''
+                    type='button'
+                    name='profilePhoto'
+                    id='upload'
+                    class='upload-box'
+                    placeholder='Upload File'
+                    data-dismiss='modal'
+                    //onClick={deleteImage.bind(null)}
+                  />
+                </div>
               </div>
             </div>
           </div>
