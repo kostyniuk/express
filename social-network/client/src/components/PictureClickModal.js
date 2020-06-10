@@ -20,6 +20,8 @@ const PictureClickModal = ({ loggedInUser, username }) => {
     fd.append('profilePhoto', newImage);
     console.log({ newImage });
     console.log({ fd, username });
+    const method = removed ? 'DELETE' : 'POST'
+    console.log({method, removed})
 
     let url = `http://localhost:3000/api/user/${username}/addPicture`;
 
@@ -29,7 +31,7 @@ const PictureClickModal = ({ loggedInUser, username }) => {
     }
 
     const response = await fetch(url, {
-      method: 'POST',
+      method,
       body: fd,
     });
 
