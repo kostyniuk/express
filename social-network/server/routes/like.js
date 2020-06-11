@@ -43,12 +43,31 @@ router.post('/:postId', async (req, res, next) => {
     console.log({ postId, user_id });
     const query = `INSERT INTO Likes (post_id, from_id) VALUES ($1, $2)`;
     const params = [postId, user_id];
-    const {rows} = await db.query(query, params)
-    console.log({rows})
-    res.status(200).json({user_id, postId, rows});
+    const { rows } = await db.query(query, params);
+    console.log({ rows });
+    res.status(200).json({ user_id, postId, rows });
   } catch (e) {
     console.error(e);
-    res.status(409).json(e)
+    res.status(409).json(e);
+  }
+});
+
+router.delete('/:postId', async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { user_id } = req.user;
+
+    console.log({ postId, user_id });
+    const query = `DELETE FROM Likes WHERE (post_id = $1 AND from_id = $2);`;
+    const params = [postId, user_id];
+    const deleted = await db.query(query, params);
+    if (deleted.rowCount) {
+      res.status(200).json({ message: 'Unliked' });
+    } else {
+      res.status(400).json({ error: 'Unable to unlike' });
+    }
+  } catch (e) {
+    console.error(e);
   }
 });
 
