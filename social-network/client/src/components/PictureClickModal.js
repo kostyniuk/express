@@ -43,45 +43,45 @@ const PictureClickModal = ({ loggedInUser, username }) => {
     return (
       <div>
         <div
-          class='modal fade'
+          className='modal fade'
           id='exampleModalCenter'
-          tabindex='-1'
+          tabIndex='-1'
           role='dialog'
           aria-labelledby='exampleModalCenterTitle'
           aria-hidden='true'
         >
-          <div class='modal-dialog modal-dialog-centered' role='document'>
-            <div class='modal-content' style={{ background: '#282c34' }}>
-              <div class='modal-header text-center'>
-                <h5 class='modal-title' id='exampleModalLongTitle'>
+          <div className='modal-dialog modal-dialog-centered' role='document'>
+            <div className='modal-content' style={{ background: '#282c34' }}>
+              <div className='modal-header text-center'>
+                <h5 className='modal-title' id='exampleModalLongTitle'>
                   Change Profile Photo
                 </h5>
                 <button
                   type='button'
-                  class='close'
+                  className='close'
                   data-dismiss='modal'
                   aria-label='Close'
                 >
                   <span aria-hidden='true'>&times;</span>
                 </button>
               </div>
-              <div class='modal-body'>
-                <div class='button-wrapper'>
-                  <span class='label'>Browse Photos</span>
+              <div className='modal-body'>
+                <div className='button-wrapper'>
+                  <span className='label'>Browse Photos</span>
 
                   <input
                     title=''
                     type='file'
                     name='profilePhoto'
                     id='upload'
-                    class='upload-box'
+                    className='upload-box'
                     placeholder='Upload File'
                     onChange={selectImage}
                   />
                 </div>
                 <hr style={{ background: 'white' }}></hr>
-                <div class='button-wrapper'>
-                  <span class='label text-danger'>
+                <div className='button-wrapper'>
+                  <span className='label text-danger'>
                     {removed ? 'Removed' : 'Remove current photo'}
                   </span>
 
@@ -90,36 +90,36 @@ const PictureClickModal = ({ loggedInUser, username }) => {
                     type='button'
                     name='profilePhoto'
                     id='upload'
-                    class='upload-box'
+                    className='upload-box'
                     placeholder='Upload File'
                     onClick={deleteImage.bind(null)}
                   />
                 </div>
                 <hr style={{ background: 'white' }}></hr>
-                <div class='button-wrapper'>
-                  <span class='label text-success'>Submit</span>
+                <div className='button-wrapper'>
+                  <span className='label text-success'>Submit</span>
 
                   <input
                     title=''
                     type='button'
                     name='profilePhoto'
                     id='upload'
-                    class='upload-box'
+                    className='upload-box'
                     placeholder='Upload File'
                     data-dismiss='modal'
                     onClick={setProfilePhoto}
                   />
                 </div>
                 <hr style={{ background: 'white' }}></hr>
-                <div class='button-wrapper'>
-                  <span class='label text-light'>Cancel</span>
+                <div className='button-wrapper'>
+                  <span className='label text-light'>Cancel</span>
 
                   <input
                     title=''
                     type='button'
                     name='profilePhoto'
                     id='upload'
-                    class='upload-box'
+                    className='upload-box'
                     placeholder='Upload File'
                     data-dismiss='modal'
                     //onClick={deleteImage.bind(null)}
@@ -133,27 +133,6 @@ const PictureClickModal = ({ loggedInUser, username }) => {
     );
   }
   return (
-    // <div>
-    //   <div
-    //     class='modal fade'
-    //     id='exampleModalCenter'
-    //     tabindex='-1'
-    //     role='dialog'
-    //     aria-labelledby='exampleModalCenterTitle'
-    //     aria-hidden='true'
-    //   >
-    //     <div class='modal-dialog modal-dialog-centered' role='document'>
-    //       <div class='modal-content' style={{ background: '#282c34' }}>
-    //         <div class='modal-header'>
-    //           <h5 class='modal-title' id='exampleModalLongTitle'>
-    //             Change Profile Photo
-    //           </h5>
-    //         </div>
-    //         <div class='modal-footer'></div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div>&nbsp;</div>
   );
 };
