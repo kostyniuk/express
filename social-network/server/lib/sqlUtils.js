@@ -12,12 +12,19 @@ module.exports = {
     }
     return rows[0].user_id;
   },
-  
+
   personInfoById: async (id, res) => {
     const queryUser = `SELECT * from person WHERE person_id = $1;`;
     const valuesUser = [id];
     let { rows } = await db.query(queryUser, valuesUser);
     let info = rows[0];
     return info;
-  }
+  },
+  formParams: (n) => {
+    let s = '$1';
+    for (let i = 2; i <= n; i++) {
+      s += `, $${i}`;
+    }
+    return s;
+  },
 };
