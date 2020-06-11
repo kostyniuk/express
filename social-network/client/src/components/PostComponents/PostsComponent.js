@@ -29,8 +29,8 @@ const Posts = ({
           </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
-            <Post post={post} loggedInUser={loggedInUser} username={username} deletePost={deletePost} />
+          {posts.map((post, i) => (
+            <Post post={post} key={i} loggedInUser={loggedInUser} username={username} deletePost={deletePost} />
           ))}
         </tbody>
       </table>
