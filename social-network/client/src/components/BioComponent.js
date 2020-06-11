@@ -17,7 +17,7 @@ const Bio = ({ loggedInUser, username, image, name, email, age, numberOfPosts, b
               height='200'
               alt='sfd'
               style={{ cursor: 'pointer' }}
-              class='profile-picture visible rounded-circle z-depth-2 mx-auto d-block '
+              className='profile-picture visible rounded-circle z-depth-2 mx-auto d-block '
               onClick={() => {
                 console.log('clicked');
               }}
