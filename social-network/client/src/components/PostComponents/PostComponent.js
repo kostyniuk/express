@@ -1,22 +1,50 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import LikeButton from '../LikeButton';
 import DeleteButton from '../DeleteComponents/DeleteButton';
 
 const Post = ({ post, loggedInUser, username, deletePost }) => {
-
   const [liked, setLiked] = useState(false);
+  const [number_of_likes, setLikes] = useState(post.number_of_likes);
 
-  const likeHandler = () => {
-    setLiked(!liked)
+
+  const loadLikes = async (postId) => {
+    const url = `http://localhost:3000/api/like/${postId}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    setLiked(json.alreadyLiked);
+  }
+
+  useEffect(() => {
+    loadLikes(post.post_id)
+  }, [])
+
+  const likeHandler = async () => {
+    setLiked(!liked);
+    if (!liked) {
+      setLikes(number_of_likes + 1);
+    } else {
+      setLikes(number_of_likes - 1);
+    }
+    const { post_id } = post;
+    const method = liked ? 'DELETE' : 'POST';
+    const url = `http://localhost:3000/api/like/${post_id}`;
+    const response = await fetch(url, {
+      method,
+    });
+    const json = await response.json();
+    console.log({ json });
   };
 
   return (
     <tr key={post.post_id} data-ng-repeat='row in tableRows track by $index'>
       <td className='word-wrap'>{post.caption}</td>
       <td>{post.created_at}</td>
-      <td>{post.number_of_likes}</td>
+      <td>{number_of_likes}</td>
       <td>
-        <LikeButton handler={likeHandler} buttonColor={liked ? 'red' : 'white'} />
+        <LikeButton
+          handler={likeHandler}
+          buttonColor={liked ? 'red' : 'white'}
+        />
       </td>
       <DeleteButton
         loggedInUser={loggedInUser}
