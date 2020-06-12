@@ -49,7 +49,6 @@ const InputPost = ({ match }) => {
 
   if (responce) return <Redirect to={`/user/${username}`}></Redirect>
 
-
   if (loading) {
     return <h1 className='text-center mt-5 text-white'>Loading...</h1>;
   }
