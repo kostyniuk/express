@@ -10,7 +10,6 @@ const User = ({ match }) => {
   useEffect(() => {
     fetchInfo();
     fetchPosts();
-    fetchAuthentificeted();
   }, []);
 
   const [name, setName] = useState('');
@@ -23,7 +22,6 @@ const User = ({ match }) => {
   const [logout, setLogout] = useState('');
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
-  const [loggedInUser, setLoggedInUser] = useState('');
 
   const API_HOST = 'http://localhost:3000/api/';
 
@@ -50,12 +48,6 @@ const User = ({ match }) => {
     setEmail(info.email);
     setNumberOfPosts(info.number_of_posts);
     setImage(url);
-  };
-
-  const fetchAuthentificeted = async () => {
-    const data = await fetch(`http://localhost:3000/api/whoami`);
-    const response = await data.json();
-    setLoggedInUser(response.user);
   };
 
   const fetchPosts = async () => {
