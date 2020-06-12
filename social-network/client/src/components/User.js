@@ -6,12 +6,6 @@ import BioComponent from './BioComponent';
 
 const User = ({ match }) => {
   const { username } = match.params;
-
-  useEffect(() => {
-    fetchInfo();
-    fetchPosts();
-  }, []);
-
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [bio, setBio] = useState('');
@@ -57,6 +51,11 @@ const User = ({ match }) => {
     setPosts(response);
     return response;
   };
+
+  useEffect(() => {
+    fetchInfo();
+    fetchPosts();
+  }, []);
 
   const logoutHandler = async (event) => {
     event.preventDefault();
