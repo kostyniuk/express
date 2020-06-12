@@ -10,7 +10,7 @@ import {
 import InputSignUp from './components/InputSignUp';
 import NavBar from './components/NavBar';
 import InputLogIn from './components/InputLogin';
-import InputPost from './components/inputPost';
+import InputPost from './components/PostComponents/InputPost';
 import User from './components/User';
 
 export const LoggedInUserContext = createContext('');
@@ -42,17 +42,18 @@ function App() {
         <div className='container'>
           <Switch>
             <Redirect path='/' exact to={`${path}`} />
+
             <Route path='/signup' exact component={InputSignUp} />
             <Route path='/login' exact component={InputLogIn} />
             <Route path='/user' exact component={NavBar} />
-            <LoggedInUserContext.Provider value={user}>
-              <Route path='/user/:username' exact component={User} />
-            </LoggedInUserContext.Provider>
             <Route
               path='/user/:username/createPost'
               exact
               component={InputPost}
             />
+            <LoggedInUserContext.Provider value={user}>
+              <Route path='/user/:username' exact component={User} />
+            </LoggedInUserContext.Provider>
           </Switch>
         </div>
       </Fragment>
