@@ -48,8 +48,13 @@ function App() {
               exact
               component={InputPost}
             />
+            <Route
+              exact
+              path='/login'
+              render={(props) => <InputLogIn {...props} user={user} />}
+            />
+
             <LoggedInUserContext.Provider value={user}>
-              <Route exact path='/login' render={(props) => <InputLogIn {...props} user={user} />} />
               <Route path='/user/:username' exact component={User} />
             </LoggedInUserContext.Provider>
           </Switch>
