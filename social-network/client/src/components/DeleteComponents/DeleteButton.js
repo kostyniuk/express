@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { LoggedInUserContext } from '../../App';
 
-const DeleteButton = ({ loggedInUser, username, id, handler }) => {
-  if (loggedInUser === username) {
+const DeleteButton = ({ username, id, handler }) => {
+  const user = useContext(LoggedInUserContext);
+  if (user === username) {
     return (
       <td>
         <button className='btn btn-danger' onClick={() => handler(id)}>

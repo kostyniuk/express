@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { LoggedInUserContext } from '../App';
 
-const PictureClickModal = ({ loggedInUser, username }) => {
+const PictureClickModal = ({ username }) => {
   const [newImage, setNewImage] = useState('');
   const [removed, setRemoved] = useState(false);
+  const user = useContext(LoggedInUserContext);
 
   const deleteImage = () => {
     setRemoved(() => true);
@@ -39,7 +41,7 @@ const PictureClickModal = ({ loggedInUser, username }) => {
 
     window.location.reload(false);
   };
-  if (loggedInUser === username) {
+  if (user === username) {
     return (
       <div>
         <div
