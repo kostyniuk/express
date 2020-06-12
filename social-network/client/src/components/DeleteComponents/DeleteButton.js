@@ -6,7 +6,7 @@ const DeleteButton = ({ username, id, handler }) => {
   if (user === username) {
     return (
       <td>
-        <button className='btn btn-danger' onClick={() => handler(id)}>
+        <button className='btn btn-danger' onClick={handler.bind(null, id)}>
           Delete
         </button>
       </td>
