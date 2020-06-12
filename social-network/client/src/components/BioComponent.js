@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PictureClickModal from './PictureClickModal';
 
 const Bio = ({ username, image, name, email, age, numberOfPosts, bio }) => {

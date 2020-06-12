@@ -38,6 +38,7 @@ const PictureClickModal = ({ username }) => {
     });
 
     const data = await response.json();
+    console.log(data);
 
     window.location.reload(false);
   };
@@ -134,9 +135,7 @@ const PictureClickModal = ({ username }) => {
       </div>
     );
   }
-  return (
-    <div>&nbsp;</div>
-  );
+  return <div>&nbsp;</div>;
 };
 
 export default PictureClickModal;

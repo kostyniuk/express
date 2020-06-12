@@ -6,17 +6,16 @@ const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
   const [number_of_likes, setLikes] = useState(post.number_of_likes);
 
-
   const loadLikes = async (postId) => {
     const url = `http://localhost:3000/api/like/${postId}`;
     const response = await fetch(url);
     const json = await response.json();
     setLiked(json.alreadyLiked);
-  }
+  };
 
   useEffect(() => {
-    loadLikes(post.post_id)
-  }, [])
+    loadLikes(post.post_id);
+  }, []);
 
   const likeHandler = async () => {
     setLiked(!liked);

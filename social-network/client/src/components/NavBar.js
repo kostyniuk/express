@@ -8,7 +8,7 @@ const NavBar = () => {
         data-toggle='affix'
       >
         <div class='mx-auto d-sm-flex'>
-          <a class='navbar-brand' href='#'>
+          <a class='navbar-brand' href='/'>
             Brand
           </a>
           <button
@@ -44,27 +44,27 @@ const NavBar = () => {
             
             <ul class='navbar-nav ml-5'>
               <li class='nav-item active'>
-                <a class='nav-link' href='#'>
+                <a class='nav-link' href='/'>
                   Home
                 </a>
               </li>
               <li class='nav-item'>
-                <a class='nav-link' href='#'>
+                <a class='nav-link' href='/d'>
                   Direct
                 </a>
               </li>
               <li class='nav-item'>
-                <a class='nav-link' href='#'>
+                <a class='nav-link' href='/activity'>
                   Activity
                 </a>
               </li>
               <li class='nav-item'>
-                <a class='nav-link' href='#'>
+                <a class='nav-link' href='/explore'>
                   Explore
                 </a>
               </li>
               <li class='nav-item'>
-                <a class='nav-link' href='#'>
+                <a class='nav-link' href='/link'>
                   Link
                 </a>
               </li>

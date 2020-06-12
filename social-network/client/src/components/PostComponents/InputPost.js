@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 const InputPost = ({ match }) => {
-
   const { username } = match.params;
 
   const [loading, setLoading] = useState(true);
@@ -10,14 +9,10 @@ const InputPost = ({ match }) => {
   const [responce, setResponce] = useState('');
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     const response = await fetch(`http://localhost:3000/api/whoami`);
     const jsonData = await response.json();
-    console.log({username, user: jsonData.user})
+    console.log({ username, user: jsonData.user });
     if (jsonData.user === username) {
       setUser(true);
     }
@@ -25,16 +20,23 @@ const InputPost = ({ match }) => {
     console.log({ jsonData });
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const body = { caption };
-      const response = await fetch(`http://localhost:3000/api/user/${username}/post`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        credentials: 'include',
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/user/${username}/post`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          credentials: 'include',
+        }
+      );
       const jsonData = await response.json();
       if (!jsonData.err) {
         setResponce(jsonData);
@@ -47,7 +49,7 @@ const InputPost = ({ match }) => {
     }
   };
 
-  if (responce) return <Redirect to={`/user/${username}`}></Redirect>
+  if (responce) return <Redirect to={`/user/${username}`}></Redirect>;
 
   if (loading) {
     return <h1 className='text-center mt-5 text-white'>Loading...</h1>;

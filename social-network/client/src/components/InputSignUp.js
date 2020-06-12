@@ -18,6 +18,9 @@ const InputSignUp = () => {
         credentials: 'include'
       });
 
+      const json = await response.json();
+      console.log(json)
+
       window.location = '/';
     } catch (err) {
       console.error(err.message);
@@ -67,15 +70,15 @@ const InputSignUp = () => {
           <button className='btn btn-success w-100 mt-3'>Sign Up</button>
           <h6 href='#' className='text-center mt-3 text-white font-italic'>
             By signing up, you agree to our{' '}
-            <a href='#' style={{ color: 'white' }}>
+            <a href='/terms' style={{ color: 'white' }}>
               Terms
             </a>
             ,{' '}
-            <a href='#' style={{ color: 'white' }}>
+            <a href='/dataPolicy' style={{ color: 'white' }}>
               Data Policy
             </a>{' '}
             and{' '}
-            <a href='#' style={{ color: 'white' }}>
+            <a href='/cookiesPolicy' style={{ color: 'white' }}>
               Cookies Policy
             </a>{' '}
             .
