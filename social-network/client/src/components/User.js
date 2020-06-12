@@ -14,7 +14,7 @@ const User = ({ match }) => {
   const [numberOfPosts, setNumberOfPosts] = useState('');
   const [notFound, setNotFound] = useState('');
   const [image, setImage] = useState('');
-  const [logout, setLogout] = useState('');
+  const [logout, setLogout] = useState(false);
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
   const [loading, setLoading] = useState(true);
@@ -57,6 +57,9 @@ const User = ({ match }) => {
 
   useEffect(() => {
     fetchInfo();
+  }, []);
+
+  useEffect(() => {
     fetchPosts();
   }, []);
 
@@ -65,7 +68,7 @@ const User = ({ match }) => {
     const data = await fetch(`http://localhost:3000/api/logout`);
     const info = await data.json();
     console.log({ info });
-    setLogout(info);
+    setLogout(true);
   };
 
   const redirectToCreatePost = async (event) => {
@@ -93,7 +96,9 @@ const User = ({ match }) => {
 
   if (loading) return <LoadingComponent />;
 
-  if (logout) return <Redirect to='/login'></Redirect>;
+  console.log({logout})
+    
+  if (logout) window.location.assign('/');
 
   if (redToCrPost)
     return <Redirect to={`/user/${username}/createPost`}></Redirect>;

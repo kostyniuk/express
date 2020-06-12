@@ -16,12 +16,8 @@ import User from './components/User';
 export const LoggedInUserContext = createContext('');
 
 function App() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   const [path, setPath] = useState('');
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const fetchUser = async () => {
     const responce = await fetch('http://localhost:3000/api/whoami');
@@ -34,6 +30,11 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+
   console.log({ path, user });
 
   return (
@@ -44,7 +45,6 @@ function App() {
             <Redirect path='/' exact to={`${path}`} />
 
             <Route path='/signup' exact component={InputSignUp} />
-            <Route path='/login' exact component={InputLogIn} />
             <Route path='/user' exact component={NavBar} />
             <Route
               path='/user/:username/createPost'
@@ -52,6 +52,7 @@ function App() {
               component={InputPost}
             />
             <LoggedInUserContext.Provider value={user}>
+              <Route exact path='/login' render={(props) => <InputLogIn {...props} user={user} />} />
               <Route path='/user/:username' exact component={User} />
             </LoggedInUserContext.Provider>
           </Switch>
