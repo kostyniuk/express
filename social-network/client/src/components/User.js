@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import PostsComponent from './PostComponents/PostsComponent';
 import BioComponent from './BioComponent';
+import LoadingComponent from './Loading';
 
 const User = ({ match }) => {
   const { username } = match.params;
@@ -16,6 +17,7 @@ const User = ({ match }) => {
   const [logout, setLogout] = useState('');
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const API_HOST = 'http://localhost:3000/api/';
 
@@ -49,6 +51,7 @@ const User = ({ match }) => {
     const data = await fetch(`http://localhost:3000/api/user/${username}/post`);
     const response = await data.json();
     setPosts(response);
+    setLoading(false);
     return response;
   };
 
@@ -87,6 +90,8 @@ const User = ({ match }) => {
       console.error(e);
     }
   };
+
+  if (loading) return <LoadingComponent />;
 
   if (logout) return <Redirect to='/login'></Redirect>;
 
