@@ -120,7 +120,6 @@ const User = ({ match }) => {
         Log Out
       </button>
       <BioComponent
-        loggedInUser={loggedInUser}
         username={username}
         image={image}
         name={name}
@@ -132,7 +131,6 @@ const User = ({ match }) => {
 
       <PostsComponent
         redirectToCreatePost={redirectToCreatePost}
-        loggedInUser={loggedInUser}
         username={username}
         posts={posts}
         deletePost={deletePost}

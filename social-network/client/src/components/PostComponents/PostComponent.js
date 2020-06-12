@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LikeButton from '../LikeButton';
 import DeleteButton from '../DeleteComponents/DeleteButton';
 
-const Post = ({ post, loggedInUser, username, deletePost }) => {
+const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
   const [number_of_likes, setLikes] = useState(post.number_of_likes);
 
@@ -47,7 +47,6 @@ const Post = ({ post, loggedInUser, username, deletePost }) => {
         />
       </td>
       <DeleteButton
-        loggedInUser={loggedInUser}
         username={username}
         id={post.post_id}
         handler={deletePost}
