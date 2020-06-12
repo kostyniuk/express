@@ -30,7 +30,7 @@ const Posts = ({
         </thead>
         <tbody>
           {posts.map((post, i) => (
-            <Post post={post} key={i} loggedInUser={loggedInUser} username={username} deletePost={deletePost} />
+            <Post post={post} key={post.post_id} loggedInUser={loggedInUser} username={username} deletePost={deletePost} />
           ))}
         </tbody>
       </table>
