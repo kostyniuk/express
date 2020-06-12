@@ -36,8 +36,6 @@ const InputLogIn = ({user}) => {
     }
   };
 
-
-  console.log({user})
   if (user) return <Redirect to={`/user/${user}`}></Redirect>
   if (err === false) return <Redirect to={`/user/${username}`}></Redirect>
 

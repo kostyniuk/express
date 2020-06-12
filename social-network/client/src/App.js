@@ -34,9 +34,6 @@ function App() {
     fetchUser();
   }, []);
 
-
-  console.log({ path, user });
-
   return (
     <Router>
       <Fragment>

@@ -78,7 +78,6 @@ const User = ({ match }) => {
 
   const deletePost = async (id) => {
     try {
-      console.log({ id });
       const responce = await fetch(
         `http://localhost:3000/api/user/${username}/post/${id}`,
         { method: 'DELETE' }
@@ -96,9 +95,7 @@ const User = ({ match }) => {
 
   if (loading) return <LoadingComponent />;
 
-  console.log({logout})
-    
-  if (logout) window.location.assign('/');
+  if (logout) window.location.assign('/login');
 
   if (redToCrPost)
     return <Redirect to={`/user/${username}/createPost`}></Redirect>;
