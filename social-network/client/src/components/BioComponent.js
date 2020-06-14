@@ -1,5 +1,5 @@
 import React from 'react';
-import PictureClickModal from './PictureClickModal';
+import PictureClickModal from './modals/PictureClickModal';
 
 const Bio = ({ username, image, name, email, age, numberOfPosts, bio }) => {
 
@@ -9,7 +9,7 @@ const Bio = ({ username, image, name, email, age, numberOfPosts, bio }) => {
         &nbsp;
         <div className='containerP d-flex justify-content-center'>
           <button type='button' className='invisible' data-toggle='modal'
-        data-target='#exampleModalCenter'>
+        data-target='#pictureClickModal'>
             <img
               src={image}
               title={'Change profile picture'} // TODO
@@ -18,9 +18,6 @@ const Bio = ({ username, image, name, email, age, numberOfPosts, bio }) => {
               alt='sfd'
               style={{ cursor: 'pointer' }}
               className='profile-picture visible rounded-circle z-depth-2 mx-auto d-block '
-              onClick={() => {
-                console.log('clicked');
-              }}
             />
           </button>
         </div>

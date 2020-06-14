@@ -23,7 +23,6 @@ const Posts = ({
           <tr>
             <th>Caption</th>
             <th>Date</th>
-            <th>Likes</th>
             <th>Like</th>
             <DeleteTh loggedInUser={loggedInUser} username={username} />
           </tr>
