@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { LoggedInUserContext } from '../App';
+import { LoggedInUserContext } from '../../App';
 
 const PictureClickModal = ({ username }) => {
   const [newImage, setNewImage] = useState('');
@@ -47,10 +47,10 @@ const PictureClickModal = ({ username }) => {
       <div>
         <div
           className='modal fade'
-          id='exampleModalCenter'
+          id='pictureClickModal'
           tabIndex='-1'
           role='dialog'
-          aria-labelledby='exampleModalCenterTitle'
+          aria-labelledby='pictureClickModalTitle'
           aria-hidden='true'
         >
           <div className='modal-dialog modal-dialog-centered' role='document'>
