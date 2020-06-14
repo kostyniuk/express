@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LikeButton from '../LikeButton';
 import DeleteButton from '../DeleteComponents/DeleteButton';
+import LikesClickModal from '../modals/LikesModal';
 
 const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
@@ -38,12 +39,20 @@ const Post = ({ post, username, deletePost }) => {
     <tr key={post.post_id} data-ng-repeat='row in tableRows track by $index'>
       <td className='word-wrap'>{post.caption}</td>
       <td>{post.created_at}</td>
-      <td>{number_of_likes}</td>
-      <td>
+      <td className='d-flex justify-content-start'>
         <LikeButton
           handler={likeHandler}
           buttonColor={liked ? 'red' : 'white'}
         />
+        <button
+          type='button'
+          className='invisible'
+          data-toggle='modal'
+          data-target='#a'
+        >
+          <p className='visible text-white'>{number_of_likes} likes</p>
+        </button>
+        <LikesClickModal />
       </td>
       <DeleteButton
         username={username}
