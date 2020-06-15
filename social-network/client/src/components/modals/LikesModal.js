@@ -3,12 +3,6 @@ import React, { useState, Fragment } from 'react';
 import LikedUser from '../LikedUser';
 
 const LikesClickModal = ({ number_of_likes, postId, info, show }) => {
-  console.log({ postId, info });
-
-  const [post, setPost] = useState(postId);
-  const [usersInfo, setUserInfo] = useState(info);
-
-  console.log({ usersInfo, info });
 
   if (show) {
     return (
