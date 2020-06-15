@@ -24,7 +24,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
 router.post('/', isAvailable, async (req, res, next) => {
   try {
     const { caption } = req.body;
@@ -44,6 +43,25 @@ router.post('/', isAvailable, async (req, res, next) => {
     res.json({
       message: 'The post was successfully created',
       username: req.user.username,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.put('/:id', isAvailable, async (req, res, next) => {
+  try {
+    const { caption } = req.body;
+    const { id } = req.params;
+
+    const queryInsert = `UPDATE post SET caption = $1 WHERE post_id = $2;`;
+    const paramsInsert = [caption, id];
+
+    await db.query(queryInsert, paramsInsert);
+
+    res.json({
+      message: 'The post was successfully updated',
+      post: caption,
     });
   } catch (e) {
     console.error(e);
