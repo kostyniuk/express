@@ -47,6 +47,7 @@ const EditButton = ({ username, id, handler, caption }) => {
           role='dialog'
           aria-labelledby='a'
           aria-hidden='true'
+          onClick={() => setCaption(caption)}
         >
           <div className='modal-dialog modal-dialog-centered' role='document'>
             <div className='modal-content' style={{ background: '#282c34' }}>
@@ -59,6 +60,7 @@ const EditButton = ({ username, id, handler, caption }) => {
                   className='close text-white'
                   data-dismiss='modal'
                   aria-label='Close'
+                  onClick={() => setCaption(caption)}
                 >
                   <span aria-hidden='true'>&times;</span>
                 </button>
@@ -96,6 +98,7 @@ const EditButton = ({ username, id, handler, caption }) => {
                     id='upload'
                     className='upload-box'
                     data-dismiss='modal'
+                    onClick={() => setCaption(caption)}
                   />
                 </div>
               </div>
