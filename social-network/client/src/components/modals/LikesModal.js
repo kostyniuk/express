@@ -1,11 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, Fragment } from 'react';
 
-const LikesClickModal = () => {
+const LikesClickModal = ({ number_of_likes, postId, info }) => {
+  console.log({ postId, info });
+
+  const [post, setPost] = useState(postId);
+
+  // console.log({id: info.data[0].person_id})
+
   return (
-    <div>
+    <Fragment>
+      <button
+        type='button'
+        className='invisible'
+        data-toggle='modal'
+        data-target={`#id${postId}`}
+      >
+        <p className='visible text-white'>{number_of_likes} likes</p>
+      </button>
       <div
         className='modal fade'
-        id='a'
+        id={`id${postId}`}
         tabIndex='-1'
         role='dialog'
         aria-labelledby='a'
@@ -15,11 +29,11 @@ const LikesClickModal = () => {
           <div className='modal-content' style={{ background: '#282c34' }}>
             <div className='modal-header'>
               <h5 className='modal-title' id='exampleModalLongTitle'>
-                Likes
+                Likes: {post}
               </h5>
               <button
                 type='button'
-                className='close'
+                className='close text-white'
                 data-dismiss='modal'
                 aria-label='Close'
               >
@@ -28,7 +42,7 @@ const LikesClickModal = () => {
             </div>
             <div className='modal-body'>
               <div className='button-wrapper'>
-                <span className='label'>Browse Photos</span>
+                <span className='label'>sad: {postId}</span>
 
                 <input
                   title=''
@@ -44,7 +58,7 @@ const LikesClickModal = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
