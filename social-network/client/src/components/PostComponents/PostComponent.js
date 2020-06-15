@@ -21,6 +21,8 @@ const Post = ({ post, username, deletePost }) => {
     loadLikes(post.post_id);
   }, []);
 
+  console.log(likes)
+
   const likeHandler = async () => {
     setLiked(!liked);
     if (!liked) {
@@ -47,7 +49,7 @@ const Post = ({ post, username, deletePost }) => {
           handler={likeHandler}
           buttonColor={liked ? 'red' : 'white'}
         />
-        <LikesClickModal number_of_likes={number_of_likes} postId={post.post_id} info={info} />
+        {info.data ? <LikesClickModal number_of_likes={number_of_likes} postId={post.post_id} info={info.data} show={info}/> : ''}
       </td>
       <DeleteButton
         username={username}
