@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LikeButton from '../LikeButton';
 import DeleteButton from '../DeleteComponents/DeleteButton';
 import LikesClickModal from '../modals/LikesModal';
+import EditButton from './EditComponents/EditButton';
 
 const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
@@ -20,8 +21,6 @@ const Post = ({ post, username, deletePost }) => {
   useEffect(() => {
     loadLikes(post.post_id);
   }, []);
-
-  console.log(likes)
 
   const likeHandler = async () => {
     setLiked(!liked);
@@ -49,8 +48,18 @@ const Post = ({ post, username, deletePost }) => {
           handler={likeHandler}
           buttonColor={liked ? 'red' : 'white'}
         />
-        {info.data ? <LikesClickModal number_of_likes={number_of_likes} postId={post.post_id} info={info.data} show={info}/> : ''}
+        {info.data ? (
+          <LikesClickModal
+            number_of_likes={number_of_likes}
+            postId={post.post_id}
+            info={info.data}
+            show={info}
+          />
+        ) : (
+          ''
+        )}
       </td>
+      <EditButton username={username} id={post.post_id} caption={post.caption} />
       <DeleteButton
         username={username}
         id={post.post_id}
