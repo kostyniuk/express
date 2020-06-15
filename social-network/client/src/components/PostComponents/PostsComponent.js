@@ -1,6 +1,7 @@
 import React from 'react';
 import DeleteTh from '../DeleteComponents/DeleteTh';
 import Post from './PostComponent';
+import EditTh from './EditComponents/EditTh.js';
 
 const Posts = ({
   redirectToCreatePost,
@@ -24,12 +25,19 @@ const Posts = ({
             <th>Caption</th>
             <th>Date</th>
             <th>Like</th>
-            <DeleteTh loggedInUser={loggedInUser} username={username} />
+            <EditTh username={username} />
+            <DeleteTh username={username} />
           </tr>
         </thead>
         <tbody>
           {posts.map((post, i) => (
-            <Post post={post} key={post.post_id} loggedInUser={loggedInUser} username={username} deletePost={deletePost} />
+            <Post
+              post={post}
+              key={post.post_id}
+              loggedInUser={loggedInUser}
+              username={username}
+              deletePost={deletePost}
+            />
           ))}
         </tbody>
       </table>
