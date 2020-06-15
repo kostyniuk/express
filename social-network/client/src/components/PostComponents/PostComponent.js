@@ -59,11 +59,15 @@ const Post = ({ post, username, deletePost }) => {
           ''
         )}
       </td>
-      <EditButton username={username} id={post.post_id} caption={post.caption} />
       <DeleteButton
         username={username}
         id={post.post_id}
         handler={deletePost}
+      />
+      <EditButton
+        username={username}
+        id={post.post_id}
+        caption={post.caption}
       />
     </tr>
   );

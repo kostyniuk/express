@@ -25,8 +25,8 @@ const Posts = ({
             <th>Caption</th>
             <th>Date</th>
             <th>Like</th>
-            <EditTh username={username} />
             <DeleteTh username={username} />
+            <EditTh username={username} />
           </tr>
         </thead>
         <tbody>
