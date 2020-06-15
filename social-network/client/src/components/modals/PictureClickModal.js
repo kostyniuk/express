@@ -61,7 +61,7 @@ const PictureClickModal = ({ username }) => {
                 </h5>
                 <button
                   type='button'
-                  className='close'
+                  className='close text-white'
                   data-dismiss='modal'
                   aria-label='Close'
                 >
