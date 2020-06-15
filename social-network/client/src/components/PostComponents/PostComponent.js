@@ -6,12 +6,15 @@ import LikesClickModal from '../modals/LikesModal';
 const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
   const [number_of_likes, setLikes] = useState(post.number_of_likes);
+  const [likes, setShowLikes] = useState(false);
+  const [info, setInfo] = useState({});
 
   const loadLikes = async (postId) => {
     const url = `http://localhost:3000/api/like/${postId}`;
     const response = await fetch(url);
     const json = await response.json();
     setLiked(json.alreadyLiked);
+    setInfo(json);
   };
 
   useEffect(() => {
@@ -44,15 +47,7 @@ const Post = ({ post, username, deletePost }) => {
           handler={likeHandler}
           buttonColor={liked ? 'red' : 'white'}
         />
-        <button
-          type='button'
-          className='invisible'
-          data-toggle='modal'
-          data-target='#a'
-        >
-          <p className='visible text-white'>{number_of_likes} likes</p>
-        </button>
-        <LikesClickModal />
+        <LikesClickModal number_of_likes={number_of_likes} postId={post.post_id} info={info} />
       </td>
       <DeleteButton
         username={username}
