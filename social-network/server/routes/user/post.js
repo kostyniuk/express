@@ -5,6 +5,9 @@ const router = express.Router({ mergeParams: true });
 const isAvailable = require('../../lib/isOwnPage');
 const db = require('../../config/db');
 
+const transformCreationTime = require('../../lib/transformCreationTime');
+const formatTime = require('../../lib/formatTime');
+
 // posts handling
 router.get('/', async (req, res, next) => {
   try {
@@ -18,7 +21,14 @@ router.get('/', async (req, res, next) => {
     const parametrs = [nickname];
 
     const { rows } = await db.query(query, parametrs);
-    res.json(rows);
+    let dates = rows.map((post) => new Date(post.created_at));
+    let postedTime = dates.map(transformCreationTime);
+    const formated = postedTime.map(formatTime);
+    const responce = rows.map((obj, i) => ({
+      ...obj,
+      created_at: formated[i],
+    }));
+    res.json(responce);
   } catch (e) {
     console.error(e);
   }
