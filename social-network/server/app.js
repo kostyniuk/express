@@ -17,6 +17,7 @@ const userRoute = require('./routes/user/user');
 const logoutRoute = require('./routes/logout');
 const likeRoute = require('./routes/like');
 const whoamiRoute = require('./routes/whoami');
+const followRoute = require('./routes/follow');
 
 const app = express();
 
@@ -36,18 +37,20 @@ const pgPool = new pg.Pool({
   port: process.env.DB_PORT,
 });
 
-app.use(session({
-  // eslint-disable-next-line new-cap
-  store: new pgSession({
-    pool: pgPool,                // Connection pool
-    // eslint-disable-next-line max-len
-    tableName: 'session'
-  }),
-  secret: process.env.FOO_COOKIE_SECRET,
-  saveUninitialized: false,
-  resave: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
-}));
+app.use(
+  session({
+    // eslint-disable-next-line new-cap
+    store: new pgSession({
+      pool: pgPool, // Connection pool
+      // eslint-disable-next-line max-len
+      tableName: 'session',
+    }),
+    secret: process.env.FOO_COOKIE_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
+  })
+);
 
 require('./config/passport');
 app.use(passport.initialize());
@@ -60,6 +63,7 @@ app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/logout', logoutRoute);
 app.use('/api/like', likeRoute);
+app.use('/api/follow', followRoute);
 
 app.get('/api', (req, res, next) => {
   res.status(300);
