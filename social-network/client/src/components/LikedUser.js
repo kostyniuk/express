@@ -1,11 +1,4 @@
 import React, { useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
 
 const LikedUser = ({ user }) => {
 
@@ -20,7 +13,7 @@ const LikedUser = ({ user }) => {
           <div className='visible d-flex justify-content-start'>
             <img
               src={'http://localhost:3000/api' + user.picture.substring(1)}
-              title={user.username} // TODO
+              title={user.username}
               width='50'
               height='50'
               alt='sfd'
