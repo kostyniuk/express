@@ -30,8 +30,8 @@ const LikesClickModal = ({ number_of_likes, postId, info, show }) => {
             </div>
 
             <div className='modal-body'>
-              {info.map((user) => (
-                <LikedUser user={user} />
+              {info.map((user, i) => (
+                <LikedUser key={i} user={user} />
               ))}
             </div>
           </div>
