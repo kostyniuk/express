@@ -5,7 +5,6 @@ const router = express.Router();
 
 const db = require('../config/db');
 
-const { formParams } = require('../lib/sqlUtils');
 const fetchEssentInfo = require('../lib/fetchUserEssentialInfo');
 
 router.get('/following', async (req, res, next) => {

@@ -5,7 +5,7 @@ const router = express.Router();
 
 const db = require('../config/db');
 
-const { formParams } = require('../lib/sqlUtils');
+const fetchEssentInfo = require('../lib/fetchUserEssentialInfo');
 
 const alreadyLikedByCurrentUser = (info, userId) => {
   const ids = [];
@@ -24,14 +24,8 @@ router.get('/:postId', async (req, res, next) => {
 
     if (rows.length) {
       const userIds = rows.map((obj) => Object.values(obj)).flat();
-      let addParameters = formParams(userIds.length);
 
-      const query2 = `SELECT p.person_id, p.picture, u.username
-      FROM person p INNER JOIN user_info u on (p.person_id = u.user_id)
-      WHERE p.person_id in (${addParameters})`;
-      const params2 = userIds;
-      const info = await db.query(query2, params2);
-      const data = info.rows;
+      const data = await fetchEssentInfo(userIds);
 
       res
         .status(200)
