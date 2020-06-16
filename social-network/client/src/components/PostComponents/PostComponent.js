@@ -3,11 +3,11 @@ import LikeButton from '../LikeButton';
 import DeleteButton from '../DeleteComponents/DeleteButton';
 import LikesClickModal from '../modals/LikesModal';
 import EditButton from './EditComponents/EditButton';
+import ShowWhoLiked from '../ShowWhoLiked';
 
 const Post = ({ post, username, deletePost }) => {
   const [liked, setLiked] = useState(false);
   const [number_of_likes, setLikes] = useState(post.number_of_likes);
-  const [likes, setShowLikes] = useState(false);
   const [info, setInfo] = useState({});
 
   const loadLikes = async (postId) => {
@@ -20,7 +20,7 @@ const Post = ({ post, username, deletePost }) => {
 
   useEffect(() => {
     loadLikes(post.post_id);
-  }, []);
+  }, [liked]);
 
   const likeHandler = async () => {
     setLiked(!liked);
@@ -48,16 +48,16 @@ const Post = ({ post, username, deletePost }) => {
           handler={likeHandler}
           buttonColor={liked ? 'red' : 'white'}
         />
-        {info.data ? (
+        <ShowWhoLiked number_of_likes={number_of_likes} postId={post.post_id} />
+        {info.data && (
           <LikesClickModal
             number_of_likes={number_of_likes}
             postId={post.post_id}
             info={info.data}
             show={info}
           />
-        ) : (
-          ''
         )}
+        {/* )} */}
       </td>
       <DeleteButton
         username={username}
