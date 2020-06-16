@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = (date) => {
+module.exports = (str) => {
+  const date = new Date(str);
   const now = Date.now();
   const diff = now - date.getTime();
   const seconds = diff / 1000;

@@ -21,9 +21,8 @@ router.get('/', async (req, res, next) => {
     const parametrs = [nickname];
 
     const { rows } = await db.query(query, parametrs);
-    let dates = rows.map((post) => new Date(post.created_at));
-    let postedTime = dates.map(transformCreationTime);
-    const formated = postedTime.map(formatTime);
+    let dates = rows.map((post) => transformCreationTime(post.created_at));
+    const formated = dates.map(formatTime);
     const responce = rows.map((obj, i) => ({
       ...obj,
       created_at: formated[i],
