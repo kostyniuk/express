@@ -10,7 +10,6 @@ const { formParams } = require('../lib/sqlUtils');
 const alreadyLikedByCurrentUser = (info, userId) => {
   const ids = [];
   info.map((obj) => ids.push(obj.person_id));
-  console.log({ ids, userId });
   return ids.includes(Number(userId));
 };
 
@@ -18,7 +17,6 @@ router.get('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { user_id } = req.user;
-    console.log({ postId });
     const query = `SELECT from_id FROM Likes WHERE post_id = $1`;
     const params = [postId];
 
@@ -51,11 +49,9 @@ router.post('/:postId', async (req, res, next) => {
     const { postId } = req.params;
     const { user_id } = req.user;
 
-    console.log({ postId, user_id });
     const query = `INSERT INTO Likes (post_id, from_id) VALUES ($1, $2)`;
     const params = [postId, user_id];
     const { rows } = await db.query(query, params);
-    console.log({ rows });
 
     const query2 = `UPDATE Post SET number_of_likes = number_of_likes + 1
     WHERE post_id = $1;`;
@@ -76,7 +72,6 @@ router.delete('/:postId', async (req, res, next) => {
     const { postId } = req.params;
     const { user_id } = req.user;
 
-    console.log({ postId, user_id });
     const query = `DELETE FROM Likes WHERE (post_id = $1 AND from_id = $2);`;
     const params = [postId, user_id];
     const deleted = await db.query(query, params);
