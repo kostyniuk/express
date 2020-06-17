@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import PostsComponent from './PostComponents/PostsComponent';
 import BioComponent from './BioComponent';
 import LoadingComponent from './Loading';
+import Fetch from './Fetch';
 
 const User = ({ match }) => {
   const { username } = match.params;
@@ -110,7 +111,7 @@ const User = ({ match }) => {
       </div>
     );
   return (
-    <Fragment>
+    <div>
       <button
         className='btn btn-danger float-right mt-3'
         onClick={logoutHandler}
@@ -133,7 +134,7 @@ const User = ({ match }) => {
         posts={posts}
         deletePost={deletePost}
       />
-    </Fragment>
+    </div>
   );
 };
 
