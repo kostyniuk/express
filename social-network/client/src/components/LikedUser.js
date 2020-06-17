@@ -9,7 +9,10 @@ const LikedUser = ({ user }) => {
   return (
     <div>
       <div className='button-wrapper d-flex'>
-        <button className='invisible' style={{width: '100%'}}  onClick={() => setRedirect(true)}>
+        <button
+          className='invisible'
+          onClick={() => setRedirect(true)}
+        >
           <div className='visible d-flex justify-content-start'>
             <img
               src={'http://localhost:3000/api' + user.picture.substring(1)}
@@ -33,9 +36,9 @@ const LikedUser = ({ user }) => {
             >
               {user.username}
             </span>
-            <FollowButton />
           </div>
         </button>
+        <FollowButton />
       </div>
       <hr style={{ background: 'white' }}></hr>
     </div>
