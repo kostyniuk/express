@@ -38,7 +38,7 @@ const LikedUser = ({ user }) => {
             </span>
           </div>
         </button>
-        <FollowButton />
+        <FollowButton followWho={user.person_id}/>
       </div>
       <hr style={{ background: 'white' }}></hr>
     </div>
