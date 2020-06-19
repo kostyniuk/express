@@ -5,7 +5,10 @@ const FollowButton = ({ followed, followWho }) => {
   const user = useContext(LoggedInUserContext);
   const [follow, setFollow] = useState(followed || false);
 
-  const toggleColor = async () => {
+  console.log({ followed, followWho });
+
+  const toggleColor = async (e) => {
+    e.preventDefault();
     setFollow((prev) => !prev);
 
     const url = `http://localhost:3000/api/follow/${followWho}`;
@@ -24,7 +27,7 @@ const FollowButton = ({ followed, followWho }) => {
       <button
         className='btn btn-primary'
         className={follow ? 'btn-secondary' : 'btn-primary'}
-        onClick={() => toggleColor()}
+        onClick={(e) => toggleColor(e)}
       >
         {' '}
         {follow ? 'following' : 'follow'}{' '}
