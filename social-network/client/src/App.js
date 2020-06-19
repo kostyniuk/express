@@ -55,7 +55,11 @@ function App() {
             />
 
             <LoggedInUserContext.Provider value={user}>
-              <Route path='/user/:username' exact component={User} />
+              <Route
+                path='/user/:username'
+                exact
+                render={(props) => <User {...props} user={user} />}
+              />
             </LoggedInUserContext.Provider>
           </Switch>
         </div>
