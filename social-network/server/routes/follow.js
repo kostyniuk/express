@@ -45,7 +45,7 @@ router.get('/followers', async (req, res, next) => {
       return res.status(200).json({ data });
     }
 
-    return res.status(200).json({ data });
+    return res.status(200).json({ rows });
   } catch (e) {
     console.error(e);
   }
