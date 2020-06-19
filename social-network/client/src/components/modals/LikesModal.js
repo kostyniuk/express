@@ -2,7 +2,7 @@ import React, { useState, Fragment } from 'react';
 
 import LikedUser from '../LikedUser';
 
-const LikesClickModal = ({ number_of_likes, postId, info, show }) => {
+const LikesClickModal = ({ postId, info, show }) => {
   if (show) {
     return (
       <div
