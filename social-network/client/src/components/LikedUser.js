@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import FollowButton from './FollowButton';
 
-const LikedUser = ({ user }) => {
+const LikedUser = ({ user, IsFollowedByMe }) => {
   const [redirect, setRedirect] = useState(false);
+
+  if(IsFollowedByMe) {
+    console.log({user, info: 'Info'})
+  } else {
+    console.log({user, info: 'No info'})
+  }
 
   if (redirect) window.location.assign(`${user.username}`);
 
@@ -38,7 +44,7 @@ const LikedUser = ({ user }) => {
             </span>
           </div>
         </button>
-        <FollowButton followWho={user.person_id}/>
+        <FollowButton followed ={IsFollowedByMe} followWho={user.person_id}/>
       </div>
       <hr style={{ background: 'white' }}></hr>
     </div>
