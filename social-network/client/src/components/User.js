@@ -1,12 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import PostsComponent from './PostComponents/PostsComponent';
 import BioComponent from './BioComponent';
 import LoadingComponent from './Loading';
-import Fetch from './Fetch';
 
-const User = ({ match }) => {
+const User = ({ match, user }) => {
   const { username } = match.params;
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -58,6 +57,7 @@ const User = ({ match }) => {
 
   useEffect(() => {
     fetchInfo();
+
   }, []);
 
   useEffect(() => {
@@ -126,6 +126,7 @@ const User = ({ match }) => {
         age={age}
         numberOfPosts={numberOfPosts}
         bio={bio}
+        ownPage={user}
       />
 
       <PostsComponent
