@@ -1,0 +1,1 @@
+select followed_id from follow WHERE following_id = (SELECT user_id from user_info WHERE username='kostyniuk');
