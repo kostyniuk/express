@@ -4,12 +4,12 @@ import FollowModal from './modals/FollowModal';
 import { CurrentProfileContext } from './Contexts/CurrentProfile';
 import { LoggedInUserContext } from './Contexts/LoggedInUserContext';
 
-
 const Bio = memo(({ image, numberOfPosts, bio }) => {
-
-  const {currentProfile} = useContext(CurrentProfileContext);
+  const { currentProfile } = useContext(CurrentProfileContext);
   const username = useContext(LoggedInUserContext);
-  console.log({type: 'bio', currentProfile, username})
+  console.log({ type: 'bio', currentProfile, username });
+  const [numOfFollowing, setNumOfFollowing] = useState(undefined);
+  const [numOfFollowers, setNumOfFollowers] = useState(undefined);
   const [following, setFollowing] = useState({});
   const [followers, setFollowers] = useState({});
   const [showFollowing, setShowFollowing] = useState(false);
@@ -29,7 +29,10 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
     const responseFollowing = await fetch(urlFollowing);
     const jsonFollowing = await responseFollowing.json();
 
-    console.log({ jsonFollowers, jsonFollowing });
+    console.log({ jsonFollowers, len: jsonFollowing.data.length });
+
+    setNumOfFollowers(jsonFollowers.data.length);
+    setNumOfFollowing(jsonFollowing.data.length);
 
     setFollowers(jsonFollowers);
     setFollowing(jsonFollowing);
@@ -82,10 +85,10 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
               data-toggle='modal'
               data-target={`#following_${currentProfile}`}
             >
-              Following: 10
+              Following: {numOfFollowing}
             </button>
             <button class='list-group-item d-inline-block text-white'>
-              Followers: 12
+              Followers: {numOfFollowers}
             </button>
           </ul>
         </div>
