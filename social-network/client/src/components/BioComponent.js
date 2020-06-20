@@ -8,12 +8,14 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
   const { currentProfile } = useContext(CurrentProfileContext);
   const username = useContext(LoggedInUserContext);
   console.log({ type: 'bio', currentProfile, username });
-  const [numOfFollowing, setNumOfFollowing] = useState(undefined);
-  const [numOfFollowers, setNumOfFollowers] = useState(undefined);
+  const [numOfFollowing, setNumOfFollowing] = useState(null);
+  const [numOfFollowers, setNumOfFollowers] = useState(null);
   const [following, setFollowing] = useState({});
   const [followers, setFollowers] = useState({});
   const [showFollowing, setShowFollowing] = useState(false);
   const [showFollowers, setShowFollowers] = useState(false);
+
+  const ownPage = username === currentProfile;
 
   useEffect(() => {
     fetchFollows();
@@ -31,8 +33,17 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
 
     console.log({ jsonFollowers, len: jsonFollowing.data.length });
 
-    setNumOfFollowers(jsonFollowers.data.length);
-    setNumOfFollowing(jsonFollowing.data.length);
+    if (jsonFollowers.data.length) {
+      setNumOfFollowers(jsonFollowers.data.length);
+    } else {
+      setNumOfFollowers(0);
+    }
+
+    if (jsonFollowing.data.length) {
+      setNumOfFollowing(jsonFollowing.data.length);
+    } else {
+      setNumOfFollowing(0);
+    }
 
     setFollowers(jsonFollowers);
     setFollowing(jsonFollowing);
@@ -76,25 +87,30 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
             className='list-group list-group-flush'
             style={{ flexDirection: 'row' }}
           >
-            <button class='list-group-item d-inline-block text-white'>
+            <li className='list-group-item d-inline-block text-white'>
               Posts: {numberOfPosts}
-            </button>
+            </li>
             <button
               type='button'
-              class='list-group-item d-inline-block text-white'
+              className='list-group-item d-inline-block text-white'
               data-toggle='modal'
-              data-target={`#following_${currentProfile}`}
+              data-target={`#Following_${currentProfile}`}
             >
               Following: {numOfFollowing}
             </button>
-            <button class='list-group-item d-inline-block text-white'>
+            <button
+              type='button'
+              className='list-group-item d-inline-block text-white'
+              data-toggle='modal'
+              data-target={`#Followers_${currentProfile}`}
+            >
               Followers: {numOfFollowers}
             </button>
           </ul>
         </div>
         <div className='d-flex align-items-center flex-column  pt-3'>
           <button className='btn btn-secondary w-50'>
-            {username === currentProfile ? 'Edit Profile' : 'Follow'}
+            {ownPage ? 'Edit Profile' : 'Follow'}
           </button>
           <p className='pt-4'>{bio}</p>
         </div>
@@ -102,11 +118,16 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
         <PictureClickModal username={currentProfile} />
         <FollowModal
           username={currentProfile}
-          type='following'
+          type='Following'
           info={following.data}
           show={showFollowing}
         />
-        {/* <FollowModal username={username} type='followers' info={followers} show={showFollowers}/> */}
+        <FollowModal
+          username={currentProfile}
+          type='Followers'
+          info={followers.data}
+          show={showFollowers}
+        />
       </form>
     </div>
   );
