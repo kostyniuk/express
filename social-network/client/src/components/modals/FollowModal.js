@@ -20,7 +20,7 @@ const LikesClickModal = ({ username, type, info, show }) => {
           <div className='modal-content' style={{ background: '#282c34' }}>
             <div className='modal-header'>
               <h5 className='modal-title' id='exampleModalLongTitle'>
-                Likes
+                {type}
               </h5>
               <button
                 type='button'
