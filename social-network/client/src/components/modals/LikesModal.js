@@ -1,8 +1,13 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
 
 import LikedUser from '../LikedUser';
 
+
 const LikesClickModal = ({ postId, info, show }) => {
+
+
+  console.log({type: 'likeModal', postId}, info)
+
   if (show) {
     return (
       <div

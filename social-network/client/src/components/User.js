@@ -6,9 +6,9 @@ import BioComponent from './BioComponent';
 import LoadingComponent from './Loading';
 
 import { CurrentProfileContext } from './Contexts/CurrentProfile';
+import { FollowingContext } from './Contexts/FollowingContext';
 
 const User = ({ match, user }) => {
-
   const { username } = match.params;
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -21,6 +21,7 @@ const User = ({ match, user }) => {
   const [posts, setPosts] = useState([]);
   const [redToCrPost, setRedToCrPost] = useState('');
   const [loading, setLoading] = useState(true);
+  const [following, setFollowing] = useState([]);
 
   const API_HOST = 'http://localhost:3000/api/';
 
@@ -46,6 +47,19 @@ const User = ({ match, user }) => {
     setImage(url);
   };
 
+  const fetchFollows = async () => {
+    const urlFollowing = `http://localhost:3000/api/follow/following/${username}`;
+
+    const responseFollowing = await fetch(urlFollowing);
+    const jsonFollowing = await responseFollowing.json();
+
+    if (jsonFollowing.data.length) {
+      setFollowing(jsonFollowing.data);
+    } else {
+      setFollowing([]);
+    }
+  };
+
   const fetchPosts = async () => {
     const { username } = match.params;
     const data = await fetch(`http://localhost:3000/api/user/${username}/post`);
@@ -57,6 +71,7 @@ const User = ({ match, user }) => {
 
   useEffect(() => {
     fetchInfo();
+    fetchFollows();
   }, []);
 
   useEffect(() => {
@@ -110,30 +125,32 @@ const User = ({ match, user }) => {
       </div>
     );
   return (
-    <CurrentProfileContext.Provider value={{currentProfile: username}}>
-      <div>
-        <button
-          className='btn btn-danger float-right mt-3'
-          onClick={logoutHandler}
-        >
-          Log Out
-        </button>
-        <BioComponent
-          image={image}
-          name={name}
-          email={email}
-          age={age}
-          numberOfPosts={numberOfPosts}
-          bio={bio}
-        />
+    <CurrentProfileContext.Provider value={{ currentProfile: username }}>
+      <FollowingContext.Provider value={following}>
+        <div>
+          <button
+            className='btn btn-danger float-right mt-3'
+            onClick={logoutHandler}
+          >
+            Log Out
+          </button>
+          <BioComponent
+            image={image}
+            name={name}
+            email={email}
+            age={age}
+            numberOfPosts={numberOfPosts}
+            bio={bio}
+          />
 
-        <PostsComponent
-          redirectToCreatePost={redirectToCreatePost}
-          username={username}
-          posts={posts}
-          deletePost={deletePost}
-        />
-      </div>
+          <PostsComponent
+            redirectToCreatePost={redirectToCreatePost}
+            username={username}
+            posts={posts}
+            deletePost={deletePost}
+          />
+        </div>
+      </FollowingContext.Provider>
     </CurrentProfileContext.Provider>
   );
 };
