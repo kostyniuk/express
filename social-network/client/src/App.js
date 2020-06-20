@@ -7,13 +7,13 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+import { LoggedInUserContext } from './components/Contexts/LoggedInUserContext';
+
 import InputSignUp from './components/InputSignUp';
 import NavBar from './components/NavBar';
 import InputLogIn from './components/InputLogin';
 import InputPost from './components/PostComponents/InputPost';
 import User from './components/User';
-
-export const LoggedInUserContext = createContext('');
 
 function App() {
   const [user, setUser] = useState(null);

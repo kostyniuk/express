@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { LoggedInUserContext } from '../App';
+import { LoggedInUserContext } from '../components/Contexts/LoggedInUserContext';
 
 const FollowButton = ({ followed, followWho }) => {
   const user = useContext(LoggedInUserContext);
   const [follow, setFollow] = useState(followed || false);
 
-  console.log({ followed, followWho });
+  console.log({ user, followWho });
 
   const toggleColor = async (e) => {
     e.preventDefault();

@@ -5,7 +5,10 @@ import PostsComponent from './PostComponents/PostsComponent';
 import BioComponent from './BioComponent';
 import LoadingComponent from './Loading';
 
+import { CurrentProfileContext } from './Contexts/CurrentProfile';
+
 const User = ({ match, user }) => {
+
   const { username } = match.params;
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -23,12 +26,9 @@ const User = ({ match, user }) => {
 
   const fetchInfo = async () => {
     const { username } = match.params;
-    console.log({ username });
     const data = await fetch(`http://localhost:3000/api/user/${username}`);
-    console.log({ data });
     const information = await data.json();
     const { info } = information;
-    console.log(information);
 
     if (information.error) {
       console.log(information.error);
@@ -57,7 +57,6 @@ const User = ({ match, user }) => {
 
   useEffect(() => {
     fetchInfo();
-
   }, []);
 
   useEffect(() => {
@@ -111,31 +110,31 @@ const User = ({ match, user }) => {
       </div>
     );
   return (
-    <div>
-      <button
-        className='btn btn-danger float-right mt-3'
-        onClick={logoutHandler}
-      >
-        Log Out
-      </button>
-      <BioComponent
-        username={username}
-        image={image}
-        name={name}
-        email={email}
-        age={age}
-        numberOfPosts={numberOfPosts}
-        bio={bio}
-        ownPage={user}
-      />
+    <CurrentProfileContext.Provider value={{currentProfile: username}}>
+      <div>
+        <button
+          className='btn btn-danger float-right mt-3'
+          onClick={logoutHandler}
+        >
+          Log Out
+        </button>
+        <BioComponent
+          image={image}
+          name={name}
+          email={email}
+          age={age}
+          numberOfPosts={numberOfPosts}
+          bio={bio}
+        />
 
-      <PostsComponent
-        redirectToCreatePost={redirectToCreatePost}
-        username={username}
-        posts={posts}
-        deletePost={deletePost}
-      />
-    </div>
+        <PostsComponent
+          redirectToCreatePost={redirectToCreatePost}
+          username={username}
+          posts={posts}
+          deletePost={deletePost}
+        />
+      </div>
+    </CurrentProfileContext.Provider>
   );
 };
 

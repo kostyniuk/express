@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import FollowButton from './FollowButton';
 
-const LikedUser = ({ user, IsFollowedByMe }) => {
+const LikedUser = memo(({ user, IsFollowedByMe }) => {
   const [redirect, setRedirect] = useState(false);
 
   if(IsFollowedByMe) {
-    console.log({user, info: 'Info'})
+    console.log({ type: 'following',  user, info: 'Info'})
   } else {
-    console.log({user, info: 'No info'})
+    console.log({ type:'postLikes', user, info: 'No info'})
   }
 
   if (redirect) window.location.assign(`${user.username}`);
@@ -49,6 +49,6 @@ const LikedUser = ({ user, IsFollowedByMe }) => {
       <hr style={{ background: 'white' }}></hr>
     </div>
   );
-};
+});
 
 export default LikedUser;

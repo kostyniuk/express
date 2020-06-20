@@ -7,12 +7,14 @@ const db = require('../config/db');
 
 const fetchEssentInfo = require('../lib/fetchUserEssentialInfo');
 
-router.get('/following', async (req, res, next) => {
+router.get('/following/:username', async (req, res, next) => {
   try {
-    const { user_id } = req.user;
+    // const { user_id } = req.user;
+    const { username } = req.params;
+    console.log({ username });
 
-    const query = `SELECT followed_id FROM follow WHERE following_id = $1`;
-    const params = [user_id];
+    const query = `SELECT followed_id FROM Follow WHERE following_id = (SELECT user_id FROM user_info WHERE username=$1);`;
+    const params = [username];
     const { rows } = await db.query(query, params);
 
     if (rows.length) {
@@ -29,12 +31,16 @@ router.get('/following', async (req, res, next) => {
   }
 });
 
-router.get('/followers', async (req, res, next) => {
-  try {
-    const { user_id } = req.user;
+//make followers and following not depending on being auth
+// get follow/followers/username like that
 
-    const query = `SELECT following_id FROM follow WHERE followed_id = $1`;
-    const params = [user_id];
+router.get('/followers/:username', async (req, res, next) => {
+  try {
+    const { username } = req.params;
+
+    const query = `SELECT following_id FROM Follow WHERE followed_id = (SELECT user_id FROM user_info WHERE username=$1);`;
+
+    const params = [username];
     const { rows } = await db.query(query, params);
 
     if (rows.length) {
@@ -61,10 +67,10 @@ router.post('/:userId', async (req, res, next) => {
       const params = [user_id, userId];
       const { rows } = await db.query(query, params);
       return res.status(200).json({ rows });
-    } 
+    }
     return res.status(403).json({ error: `It's forbidden to follow yourself` });
   } catch (e) {
-    res.status(404).json({error: e.detail})
+    res.status(404).json({ error: e.detail });
   }
 });
 
@@ -78,10 +84,12 @@ router.delete('/:userId', async (req, res, next) => {
       const params = [user_id, userId];
       const { rows } = await db.query(query, params);
       return res.status(200).json({ rows });
-    } 
-    return res.status(403).json({ error: `It's forbidden to either follow or unfollow yourself` });
+    }
+    return res
+      .status(403)
+      .json({ error: `It's forbidden to either follow or unfollow yourself` });
   } catch (e) {
-    res.status(404).json({error: e.detail})
+    res.status(404).json({ error: e.detail });
   }
 });
 
