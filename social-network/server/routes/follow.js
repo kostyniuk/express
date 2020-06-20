@@ -25,7 +25,7 @@ router.get('/following/:username', async (req, res, next) => {
       return res.status(200).json({ data });
     }
 
-    return res.status(200).json({ data });
+    return res.status(200).json({ data: rows });
   } catch (e) {
     console.error(e);
   }
@@ -51,7 +51,7 @@ router.get('/followers/:username', async (req, res, next) => {
       return res.status(200).json({ data });
     }
 
-    return res.status(200).json({ rows });
+    return res.status(200).json({ data: rows });
   } catch (e) {
     console.error(e);
   }
