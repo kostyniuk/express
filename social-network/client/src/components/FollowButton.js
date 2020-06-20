@@ -5,11 +5,10 @@ const FollowButton = ({ followed, followWho }) => {
   const user = useContext(LoggedInUserContext);
   const [follow, setFollow] = useState(followed || false);
 
-  console.log({ user, followWho });
+  console.log({ user, followed, followWho });
 
   const toggleColor = async (e) => {
     e.preventDefault();
-    setFollow((prev) => !prev);
 
     const url = `http://localhost:3000/api/follow/${followWho}`;
     const method = follow ? 'DELETE' : 'POST';
@@ -19,6 +18,11 @@ const FollowButton = ({ followed, followWho }) => {
     });
 
     const json = await data.json();
+
+    if (!json.error) {
+      setFollow((prev) => !prev);
+    }
+
     console.log({ json });
   };
 
