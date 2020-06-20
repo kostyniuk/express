@@ -1,13 +1,21 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useContext } from 'react';
 import FollowButton from './FollowButton';
 
+import { FollowingContext } from './Contexts/FollowingContext';
+
 const LikedUser = memo(({ user, IsFollowedByMe }) => {
+  const following = useContext(FollowingContext);
+  const { person_id } = user;
+  const followingIds = following.map(person => person.person_id)
   const [redirect, setRedirect] = useState(false);
 
-  if(IsFollowedByMe) {
-    console.log({ type: 'following',  user, info: 'Info'})
+  if (IsFollowedByMe) {
+    console.log({ type: 'following', user, info: 'Info', IsFollowedByMe });
   } else {
-    console.log({ type:'postLikes', user, info: 'No info'})
+    console.log({ type: 'postLikes', user, info: 'No info', IsFollowedByMe });
+    if (followingIds.includes(person_id)) {
+      IsFollowedByMe = true
+    }
   }
 
   if (redirect) window.location.assign(`${user.username}`);
@@ -15,10 +23,7 @@ const LikedUser = memo(({ user, IsFollowedByMe }) => {
   return (
     <div>
       <div className='button-wrapper d-flex'>
-        <button
-          className='invisible'
-          onClick={() => setRedirect(true)}
-        >
+        <button className='invisible' onClick={() => setRedirect(true)}>
           <div className='visible d-flex justify-content-start'>
             <img
               src={'http://localhost:3000/api' + user.picture.substring(1)}
@@ -44,7 +49,7 @@ const LikedUser = memo(({ user, IsFollowedByMe }) => {
             </span>
           </div>
         </button>
-        <FollowButton followed ={IsFollowedByMe} followWho={user.person_id}/>
+        <FollowButton followed={IsFollowedByMe} followWho={user.person_id} />
       </div>
       <hr style={{ background: 'white' }}></hr>
     </div>
