@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LoggedInUserContext } from '../../App';
+import { LoggedInUserContext } from '../Contexts/LoggedInUserContext';
 
 const DeleteButton = ({ username, id, handler }) => {
   const user = useContext(LoggedInUserContext);

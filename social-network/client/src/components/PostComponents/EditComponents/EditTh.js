@@ -1,11 +1,9 @@
 import React, {useContext} from 'react';
-import { LoggedInUserContext } from '../../../App';
+import { LoggedInUserContext } from '../../Contexts/LoggedInUserContext';
 
 
 const EditTh = ({username}) => {
-  console.log('edit')
   const user = useContext(LoggedInUserContext);
-  console.log({username})
   if (username === user) {
     return (
       <th>Edit</th>

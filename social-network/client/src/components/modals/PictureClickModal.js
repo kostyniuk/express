@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { LoggedInUserContext } from '../../App';
+import { LoggedInUserContext } from '../Contexts/LoggedInUserContext';
 
 const PictureClickModal = ({ username }) => {
   const [newImage, setNewImage] = useState('');

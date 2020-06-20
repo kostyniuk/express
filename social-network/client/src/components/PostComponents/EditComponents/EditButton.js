@@ -1,7 +1,7 @@
 import React, { useContext, Fragment, useState } from 'react';
-import { LoggedInUserContext } from '../../../App';
+import { LoggedInUserContext } from '../../Contexts/LoggedInUserContext';
 
-const EditButton = ({ username, id, handler, caption }) => {
+const EditButton = ({ username, id, caption }) => {
   const [userCaption, setCaption] = useState(caption);
 
   const updateCaption = async (e) => {
@@ -26,7 +26,6 @@ const EditButton = ({ username, id, handler, caption }) => {
   };
 
   const user = useContext(LoggedInUserContext);
-  console.log({ user, username });
   if (user === username) {
     return (
       <Fragment>
