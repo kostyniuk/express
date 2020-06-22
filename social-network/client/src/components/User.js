@@ -10,6 +10,7 @@ import { FollowingContext } from './Contexts/FollowingContext';
 
 const User = ({ match, user }) => {
   const { username } = match.params;
+  const [id, setId] = useState('')
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [bio, setBio] = useState('');
@@ -31,6 +32,8 @@ const User = ({ match, user }) => {
     const information = await data.json();
     const { info } = information;
 
+    console.log({info})
+
     if (information.error) {
       console.log(information.error);
       setNotFound(true);
@@ -45,6 +48,7 @@ const User = ({ match, user }) => {
     setEmail(info.email);
     setNumberOfPosts(info.number_of_posts);
     setImage(url);
+    setId(info.person_id)
   };
 
   const fetchFollows = async () => {
@@ -125,7 +129,7 @@ const User = ({ match, user }) => {
       </div>
     );
   return (
-    <CurrentProfileContext.Provider value={{ currentProfile: username }}>
+    <CurrentProfileContext.Provider value={{ currentProfile: username, id}}>
       <FollowingContext.Provider value={following}>
         <div>
           <button
