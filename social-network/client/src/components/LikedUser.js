@@ -10,9 +10,9 @@ const LikedUser = memo(({ user, IsFollowedByMe }) => {
   const [redirect, setRedirect] = useState(false);
 
   if (IsFollowedByMe) {
-    console.log({ type: 'following', user, info: 'Info', IsFollowedByMe });
+    // console.log({ type: 'following', user, info: 'Info', IsFollowedByMe });
   } else {
-    console.log({ type: 'postLikes', user, info: 'No info', IsFollowedByMe });
+    // console.log({ type: 'postLikes', user, info: 'No info', IsFollowedByMe });
     if (followingIds.includes(person_id)) {
       IsFollowedByMe = true
     }
