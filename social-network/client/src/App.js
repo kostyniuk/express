@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { LoggedInUserContext } from './components/Contexts/LoggedInUserContext';
+import { MyFollowsContext } from './components/Contexts/MyFollowsContext';
 
 import InputSignUp from './components/InputSignUp';
 import NavBar from './components/NavBar';
@@ -17,12 +18,24 @@ import User from './components/User';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [follows, setFollows] = useState([]);
   const [path, setPath] = useState('');
 
   const fetchUser = async () => {
     const responce = await fetch('http://localhost:3000/api/whoami');
     const data = await responce.json();
     setUser(data.user);
+
+    const { id } = data;
+
+    console.log({ id, user: data.user });
+
+    const urlFollowing = `http://localhost:3000/api/follow/following/${data.user}`;
+    const responce2 = await fetch(urlFollowing);
+    const json = await responce2.json();
+    console.log({ json });
+    setFollows(json.data);
+
     if (data.authentificated) {
       setPath('user/' + data.user);
     } else {
@@ -55,11 +68,13 @@ function App() {
             />
 
             <LoggedInUserContext.Provider value={user}>
-              <Route
-                path='/user/:username'
-                exact
-                render={(props) => <User {...props} user={user} />}
-              />
+              <MyFollowsContext.Provider value={follows}>
+                <Route
+                  path='/user/:username'
+                  exact
+                  render={(props) => <User {...props} user={user} />}
+                />
+              </MyFollowsContext.Provider>
             </LoggedInUserContext.Provider>
           </Switch>
         </div>
