@@ -1,16 +1,47 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef, memo } from 'react';
 import { LoggedInUserContext } from '../components/Contexts/LoggedInUserContext';
+import { CurrentProfileContext } from '../components/Contexts/CurrentProfile';
+import { MyFollowsContext } from '../components/Contexts/MyFollowsContext';
 
-const FollowButton = ({ followed, followWho }) => {
+const FollowButton = memo(({ followed, followWho, type }) => {
   const user = useContext(LoggedInUserContext);
+  const follows = useContext(MyFollowsContext);
+  const { currentProfile, id } = useContext(CurrentProfileContext);
   const [follow, setFollow] = useState(followed || false);
+  let followPage = useRef(null);
 
-  console.log({ user, followed, followWho });
+  if (type) {
+    const usersFollowing = follows.map((o) => o.username);
+    console.log({follows, currentProfile, SHSHSHSHSHSHHSHSSH:'DASJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJK'})
+    if (usersFollowing.includes(currentProfile)) {
+      followPage =true;
+      console.log({info: 'ASSIGNED'})
+      console.log({followPage})
+    } else {
+      console.log({info: 'shhhiiiiiit', usersFollowing, currentProfile})
+      followPage =false;
+    }
+  }
+
+  console.log({
+    type: 'followButton',
+    follows,
+    user,
+    currentProfile,
+    id,
+    followed,
+    followWho,
+    follow,
+  });
+
+  // const folowing = false
 
   const toggleColor = async (e) => {
     e.preventDefault();
 
-    const url = `http://localhost:3000/api/follow/${followWho}`;
+    const param = followWho || id;
+
+    const url = `http://localhost:3000/api/follow/${param}`;
     const method = follow ? 'DELETE' : 'POST';
 
     const data = await fetch(url, {
@@ -26,11 +57,14 @@ const FollowButton = ({ followed, followWho }) => {
     console.log({ json });
   };
 
+  console.log({followPage: followPage.current})
+
+
+  
   return (
-    <div className='ml-auto p-2 d-flex'>
+    <div className={followWho ? 'ml-auto p-2 d-flex' : ' p-2 d-flex'}>
       <button
-        className='btn btn-primary'
-        className={follow ? 'btn-secondary' : 'btn-primary'}
+        className={follow ? 'btn btn-secondary' : 'btn btn-primary'}
         onClick={(e) => toggleColor(e)}
       >
         {' '}
@@ -38,6 +72,6 @@ const FollowButton = ({ followed, followWho }) => {
       </button>
     </div>
   );
-};
+});
 
 export default FollowButton;
