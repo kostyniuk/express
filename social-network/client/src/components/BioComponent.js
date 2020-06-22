@@ -3,6 +3,8 @@ import PictureClickModal from './modals/PictureClickModal';
 import FollowModal from './modals/FollowModal';
 import { CurrentProfileContext } from './Contexts/CurrentProfile';
 import { LoggedInUserContext } from './Contexts/LoggedInUserContext';
+import EditUserButton from './EditUserButton';
+import FollowButton from './FollowButton';
 
 const Bio = memo(({ image, numberOfPosts, bio }) => {
   const { currentProfile } = useContext(CurrentProfileContext);
@@ -108,11 +110,11 @@ const Bio = memo(({ image, numberOfPosts, bio }) => {
             </button>
           </ul>
         </div>
-        <div className='d-flex align-items-center flex-column  pt-3'>
-          <button className='btn btn-secondary w-50'>
-            {ownPage ? 'Edit Profile' : 'Follow'}
-          </button>
-          <p className='pt-4'>{bio}</p>
+        <div className='d-flex  justify-content-center pt-3'>
+          {ownPage ? <EditUserButton /> : <FollowButton type='bio'/>}
+        </div>
+        <div className='d-flex justify-content-center pt-3'>
+          <p className='p-2'>{bio}</p>
         </div>
         &nbsp;
         <PictureClickModal username={currentProfile} />
